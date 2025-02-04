@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.1797500000000003,
+        "y": 7.018249999999999
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.8269450913436351,
+        "y": 6.6109795402877225
+      },
+      "isLocked": false,
+      "linkedName": "CORAL STATION 1"
+    },
+    {
+      "anchor": {
+        "x": 4.998875416977987,
+        "y": 5.247000978177219
+      },
+      "prevControl": {
+        "x": 4.259024946582074,
+        "y": 5.703510554157736
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "REEF J"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -119.99999999999999
+  },
+  "reversed": false,
+  "folder": "season",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -54.0
+  },
+  "useDefaultConstraints": true
+}

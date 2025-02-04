@@ -1,0 +1,390 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.1664077186116457,
+        "y": 4.188331543718503
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.082457426771974,
+        "y": 3.6679423956394754
+      },
+      "isLocked": false,
+      "linkedName": "REEF A"
+    },
+    {
+      "anchor": {
+        "x": 3.1664077186116457,
+        "y": 4.188331543718503
+      },
+      "prevControl": {
+        "x": 3.1953477404084873,
+        "y": 4.436650844495543
+      },
+      "nextControl": {
+        "x": 3.127179184256493,
+        "y": 3.8517318586884524
+      },
+      "isLocked": false,
+      "linkedName": "REEF A"
+    },
+    {
+      "anchor": {
+        "x": 3.1677060614719466,
+        "y": 4.027985498825082
+      },
+      "prevControl": {
+        "x": 3.2147049604899327,
+        "y": 4.748310919330577
+      },
+      "nextControl": {
+        "x": 3.145591601096768,
+        "y": 3.6890497300764054
+      },
+      "isLocked": false,
+      "linkedName": "REEF AB"
+    },
+    {
+      "anchor": {
+        "x": 3.170069519009468,
+        "y": 3.8589054809894856
+      },
+      "prevControl": {
+        "x": 3.1123890657276667,
+        "y": 4.180909083257272
+      },
+      "nextControl": {
+        "x": 3.279873754426099,
+        "y": 3.245918631255925
+      },
+      "isLocked": false,
+      "linkedName": "REEF B"
+    },
+    {
+      "anchor": {
+        "x": 3.6822460872850167,
+        "y": 2.9661500000000043
+      },
+      "prevControl": {
+        "x": 3.439471087285016,
+        "y": 3.292430480986353
+      },
+      "nextControl": {
+        "x": 3.8314835949197046,
+        "y": 2.7655803953362206
+      },
+      "isLocked": false,
+      "linkedName": "REEF C"
+    },
+    {
+      "anchor": {
+        "x": 3.8201239642065508,
+        "y": 2.8912649361801708
+      },
+      "prevControl": {
+        "x": 4.06575,
+        "y": 2.66
+      },
+      "nextControl": {
+        "x": 3.5291321483224194,
+        "y": 3.1652432362085356
+      },
+      "isLocked": false,
+      "linkedName": "REEF CD"
+    },
+    {
+      "anchor": {
+        "x": 3.9732335778357117,
+        "y": 2.8069491367447337
+      },
+      "prevControl": {
+        "x": 3.7147500000000004,
+        "y": 3.0109999999999992
+      },
+      "nextControl": {
+        "x": 4.212993097695798,
+        "y": 2.6176793293134333
+      },
+      "isLocked": false,
+      "linkedName": "REEF D"
+    },
+    {
+      "anchor": {
+        "x": 5.002725,
+        "y": 2.8033249999999996
+      },
+      "prevControl": {
+        "x": 5.34617468245134,
+        "y": 2.940465307026444
+      },
+      "nextControl": {
+        "x": 4.657371218739811,
+        "y": 2.6654243816132697
+      },
+      "isLocked": false,
+      "linkedName": "REEF E"
+    },
+    {
+      "anchor": {
+        "x": 5.1438777371693645,
+        "y": 2.8848047315174754
+      },
+      "prevControl": {
+        "x": 5.414380214312908,
+        "y": 2.9603459234813703
+      },
+      "nextControl": {
+        "x": 4.696056572452459,
+        "y": 2.759745083537161
+      },
+      "isLocked": false,
+      "linkedName": "REEF EF"
+    },
+    {
+      "anchor": {
+        "x": 5.288399999999998,
+        "y": 2.9661500000000043
+      },
+      "prevControl": {
+        "x": 4.8843113121814925,
+        "y": 2.7180370102474445
+      },
+      "nextControl": {
+        "x": 5.516854647622539,
+        "y": 3.1064225870662243
+      },
+      "isLocked": false,
+      "linkedName": "REEF F"
+    },
+    {
+      "anchor": {
+        "x": 5.803830480988443,
+        "y": 3.858619519011557
+      },
+      "prevControl": {
+        "x": 5.784734510702547,
+        "y": 3.412978572467736
+      },
+      "nextControl": {
+        "x": 5.853496096854434,
+        "y": 5.017661543786203
+      },
+      "isLocked": false,
+      "linkedName": "REEF G"
+    },
+    {
+      "anchor": {
+        "x": 5.806508286385667,
+        "y": 4.029861534623291
+      },
+      "prevControl": {
+        "x": 5.868209005642583,
+        "y": 3.7875951084656836
+      },
+      "nextControl": {
+        "x": 5.710408742758138,
+        "y": 4.407194137393704
+      },
+      "isLocked": false,
+      "linkedName": "REEF GH"
+    },
+    {
+      "anchor": {
+        "x": 5.803830480988443,
+        "y": 4.188800000004053
+      },
+      "prevControl": {
+        "x": 5.935897346474488,
+        "y": 3.843012690518619
+      },
+      "nextControl": {
+        "x": 5.667650139687041,
+        "y": 4.5453575184256305
+      },
+      "isLocked": false,
+      "linkedName": "REEF H"
+    },
+    {
+      "anchor": {
+        "x": 5.290877013312038,
+        "y": 5.080053467676405
+      },
+      "prevControl": {
+        "x": 5.727930015807269,
+        "y": 4.842692372848553
+      },
+      "nextControl": {
+        "x": 5.051739172107494,
+        "y": 5.209927921069958
+      },
+      "isLocked": false,
+      "linkedName": "REEF I"
+    },
+    {
+      "anchor": {
+        "x": 5.1465436053041484,
+        "y": 5.1624554654394865
+      },
+      "prevControl": {
+        "x": 5.462258320883857,
+        "y": 5.0289005155075035
+      },
+      "nextControl": {
+        "x": 4.509584747689386,
+        "y": 5.431904446242522
+      },
+      "isLocked": false,
+      "linkedName": "REEF IJ"
+    },
+    {
+      "anchor": {
+        "x": 4.998875416977987,
+        "y": 5.247000978177219
+      },
+      "prevControl": {
+        "x": 5.207392159593339,
+        "y": 5.109085177599174
+      },
+      "nextControl": {
+        "x": 4.5188149338410355,
+        "y": 5.564519490251085
+      },
+      "isLocked": false,
+      "linkedName": "REEF J"
+    },
+    {
+      "anchor": {
+        "x": 3.9876698536416164,
+        "y": 5.255770077961824
+      },
+      "prevControl": {
+        "x": 4.212102438199133,
+        "y": 5.365906425226627
+      },
+      "nextControl": {
+        "x": 3.7632372690841,
+        "y": 5.14563373069702
+      },
+      "isLocked": false,
+      "linkedName": "REEF K"
+    },
+    {
+      "anchor": {
+        "x": 3.8238801386031342,
+        "y": 5.1624554654394865
+      },
+      "prevControl": {
+        "x": 4.305874188557941,
+        "y": 5.369528698614921
+      },
+      "nextControl": {
+        "x": 3.326302570398821,
+        "y": 4.94868727511992
+      },
+      "isLocked": false,
+      "linkedName": "REEF KL"
+    },
+    {
+      "anchor": {
+        "x": 3.6822460872850167,
+        "y": 5.080696921247972
+      },
+      "prevControl": {
+        "x": 3.948411444142231,
+        "y": 5.231810501034787
+      },
+      "nextControl": {
+        "x": 2.5191036243627236,
+        "y": 4.420330660778802
+      },
+      "isLocked": false,
+      "linkedName": "REEF L"
+    },
+    {
+      "anchor": {
+        "x": 1.1797500000000003,
+        "y": 7.018249999999999
+      },
+      "prevControl": {
+        "x": 2.2222718206366956,
+        "y": 6.867159211959658
+      },
+      "nextControl": {
+        "x": 0.7202580281326563,
+        "y": 7.084843334310497
+      },
+      "isLocked": false,
+      "linkedName": "CORAL STATION 1"
+    },
+    {
+      "anchor": {
+        "x": 0.7215,
+        "y": 6.68675
+      },
+      "prevControl": {
+        "x": 0.59512648495349,
+        "y": 6.960585327111432
+      },
+      "nextControl": {
+        "x": 1.246889953927881,
+        "y": 5.548296821405165
+      },
+      "isLocked": false,
+      "linkedName": "CORAL STATION 2"
+    },
+    {
+      "anchor": {
+        "x": 0.7049250000000002,
+        "y": 1.3535000000000001
+      },
+      "prevControl": {
+        "x": 0.4809657487535185,
+        "y": 2.1960547170866325
+      },
+      "nextControl": {
+        "x": 0.8729378278930688,
+        "y": 0.7214207271657941
+      },
+      "isLocked": false,
+      "linkedName": "CORAL STATION 3"
+    },
+    {
+      "anchor": {
+        "x": 1.6107000000000005,
+        "y": 0.6953750000000002
+      },
+      "prevControl": {
+        "x": 1.1018559217624004,
+        "y": 0.8479333080857151
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "CORAL STATION 4"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 54.0
+  },
+  "reversed": false,
+  "folder": "season",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

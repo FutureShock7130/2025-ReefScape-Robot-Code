@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.1677060614719466,
+        "y": 4.027985498825082
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.1565901363496622,
+        "y": 3.653584885687549
+      },
+      "isLocked": false,
+      "linkedName": "REEF AB"
+    },
+    {
+      "anchor": {
+        "x": 3.8201239642065508,
+        "y": 2.8912649361801708
+      },
+      "prevControl": {
+        "x": 3.369075227356212,
+        "y": 3.05476326557818
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "REEF CD"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 59.99999999999999
+  },
+  "reversed": false,
+  "folder": "season",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

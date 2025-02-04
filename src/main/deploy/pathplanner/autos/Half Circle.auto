@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HC"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SHC1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SHC2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SHC3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SHC4"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "testing auto",
+  "choreoAuto": false
+}
