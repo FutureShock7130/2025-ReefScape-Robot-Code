@@ -129,5 +129,22 @@ public class Constants {
         static {
             INTAKER_MOTOR_CONFIGURATION.inverted(false);
         }
+        
+        
+        // grabber
+        public static final int GRABBER_UPPER_MOTOR_ID = 2;
+
+        // grabber upper motor configuration
+        public static final SparkMaxConfig GRABBER_UPPER_MOTOR = new SparkMaxConfig();
+        static {
+            GRABBER_UPPER_MOTOR.inverted(false);
+        }
+        public static final int GRABBER_LOWER_MOTOR_ID = 1;
+
+        // grabber lower motor configuration
+        public static final SparkMaxConfig GRABBER_LOWER_MOTOR = new SparkMaxConfig();
+        static {
+                GRABBER_LOWER_MOTOR.inverted(false);
+        }
     }
 }
