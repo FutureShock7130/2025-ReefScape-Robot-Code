@@ -91,9 +91,6 @@ public class Constants {
         // TODO: fill the int
         public static final int LEFT_ELEVATOR_MOTOR_ID = 0;
         public static final int RIGHT_ELEVATOR_MOTOR_ID = 0;
-
-        // elevator cancoder constants
-        // TODO: fill the int
         public static final int ELEVATOR_CANCODER_ID = 0;
         public static final SparkMaxConfig LEFT_ELEVATOR_MOTOR_CONFIGURATION = new SparkMaxConfig();
         static {
@@ -127,8 +124,13 @@ public class Constants {
 
         // intake motor constants
         // TODO: fill the int
-        public static final int INTAKE_MOTOR_ID = 0;
-        public static final SparkMaxConfig INTAKE_MOTOR_CONFIGURATION = new SparkMaxConfig();
+        public static final int INTAKE_TILTER_MOTOR_ID = 0;
+        public static final int INTAKE_ROLLER_MOTOR_ID = 0;
+        public static final SparkMaxConfig INTAKE_TILTER_MOTOR_CONFIGURATION = new SparkMaxConfig();
+        static {
+            GRABBER_MOTOR_CONFIGURATION.inverted(false);
+        }
+        public static final SparkMaxConfig INTAKE_ROLLER_MOTOR_CONFIGURATION = new SparkMaxConfig();
         static {
             GRABBER_MOTOR_CONFIGURATION.inverted(false);
         }

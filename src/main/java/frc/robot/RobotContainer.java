@@ -35,4 +35,8 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
     }
+
+    public CommandXboxController getXboxController() {
+        return controller;
+    }
 }
