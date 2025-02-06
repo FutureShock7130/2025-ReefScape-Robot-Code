@@ -20,7 +20,6 @@ public class Superstructure extends SubsystemBase {
   
   StateMachine mStateMachine;
   SuperstructureState mCommandedState;
-  SuperstructureState mWantedState = SuperstructureState.IDLE;
 
   CommandXboxController mController;
 
@@ -116,6 +115,5 @@ public class Superstructure extends SubsystemBase {
     updateState();
 
     SmartDashboard.putString("Commanded State", mCommandedState.toString());
-    SmartDashboard.putString("Wanted State", mWantedState.toString());
   }
 }

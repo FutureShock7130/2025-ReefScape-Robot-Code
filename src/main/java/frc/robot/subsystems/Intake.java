@@ -26,6 +26,7 @@ public class Intake extends SubsystemBase {
     }
     return mInstance;
   }
+  
   /** Creates a new Intake. */
   public Intake() {
     mTilter = new SparkMax(SuperstructureConstants.INTAKE_TILTER_MOTOR_ID, MotorType.kBrushless);
