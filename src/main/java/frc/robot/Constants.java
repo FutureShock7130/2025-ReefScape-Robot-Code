@@ -91,6 +91,7 @@ public class Constants {
         // TODO: fill the int
         public static final int LEFT_ELEVATOR_MOTOR_ID = 0;
         public static final int RIGHT_ELEVATOR_MOTOR_ID = 0;
+        // TODO: fill the int
         public static final int ELEVATOR_CANCODER_ID = 0;
         public static final SparkMaxConfig LEFT_ELEVATOR_MOTOR_CONFIGURATION = new SparkMaxConfig();
         static {
