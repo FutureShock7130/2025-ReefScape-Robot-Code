@@ -14,8 +14,8 @@ public class Grabber extends SubsystemBase {
     private final SparkMax motor;
 
     public Grabber() {
-        motor = new SparkMax(SuperstructureConstants.INTAKER_MOTOR_ID, MotorType.kBrushless);
-        motor.configure(SuperstructureConstants.INTAKER_MOTOR_CONFIGURATION, ResetMode.kResetSafeParameters,
+        motor = new SparkMax(SuperstructureConstants.GRABBER_MOTOR_ID, MotorType.kBrushless);
+        motor.configure(SuperstructureConstants.GRABBER_MOTOR_CONFIGURATION, ResetMode.kResetSafeParameters,
                 PersistMode.kNoPersistParameters);
     }
 
@@ -25,7 +25,7 @@ public class Grabber extends SubsystemBase {
     
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("intaker set speed", motor.get());
-        SmartDashboard.putNumber("intake rpm", motor.getEncoder().getVelocity());
+        SmartDashboard.putNumber("grabber set speed", motor.get());
+        SmartDashboard.putNumber("grabber rpm", motor.getEncoder().getVelocity());
     }
 }
