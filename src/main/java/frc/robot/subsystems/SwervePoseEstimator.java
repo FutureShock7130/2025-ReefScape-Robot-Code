@@ -34,18 +34,19 @@ public class SwervePoseEstimator extends SubsystemBase {
     return m_instance;
   }
   
-  private SwerveDrive m_swerve = SwerveDrive.getInstance();
+  private SwerveDrive m_Swerve = SwerveDrive.getInstance();
+  private SwerveVision m_SwerveVision = SwerveVision.getInstance();
 
   private Pigeon2 pigeon = new Pigeon2(SwerveConstants.PIGEON_ID, RobotConstants.CANBUS_NAME);
 
   private Rotation2d m_gyroYaw = getGyroYaw();
-  private Supplier<SwerveModulePosition[]> m_modulePos = () -> m_swerve.getModulePositions();
+  private Supplier<SwerveModulePosition[]> m_modulePos = () -> m_Swerve.getModulePositions();
   private SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.MODULE_TRANSLATOIN_METERS);
   private SwerveDrivePoseEstimator m_poseEstimator = new SwerveDrivePoseEstimator(
     m_kinematics,
     m_gyroYaw,
     m_modulePos.get(),
-    LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(RobotConstants.LIMELIGHT_NAME).pose,
+    m_SwerveVision.getVisionEstimatedPose().get().estimatedPose.toPose2d(),
     VecBuilder.fill(0.1, 0.1, 0.1),
     VecBuilder.fill(0.9, 0.9, 0.9)
   );
@@ -53,7 +54,7 @@ public class SwervePoseEstimator extends SubsystemBase {
   private Field2d m_field = new Field2d();
 
   public SwervePoseEstimator() {
-    m_poseEstimator.resetPosition(getGyroYaw(), m_swerve.getModulePositions(), getPoseEstimatorPose());
+    m_poseEstimator.resetPosition(getGyroYaw(), m_Swerve.getModulePositions(), getPoseEstimatorPose());
     pigeon.reset();
   }
 
@@ -70,17 +71,17 @@ public class SwervePoseEstimator extends SubsystemBase {
   }
 
   public void setPoseEstimatorPose(Pose2d pose) {
-    m_poseEstimator.resetPosition(getGyroYaw(), m_swerve.getModulePositions(), pose);
+    m_poseEstimator.resetPosition(getGyroYaw(), m_Swerve.getModulePositions(), pose);
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
-    return ChassisSpeeds.fromFieldRelativeSpeeds(m_kinematics.toChassisSpeeds(m_swerve.getModuleStates()), getGyroYaw());
+    return ChassisSpeeds.fromFieldRelativeSpeeds(m_kinematics.toChassisSpeeds(m_Swerve.getModuleStates()), getGyroYaw());
   }
 
   @Override
   public void periodic() {
-    m_poseEstimator.update(getGyroYaw(), m_swerve.getModulePositions());
-    m_poseEstimator.addVisionMeasurement(LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(RobotConstants.LIMELIGHT_NAME).pose, Timer.getFPGATimestamp());
+    m_poseEstimator.update(getGyroYaw(), m_Swerve.getModulePositions());
+    if (m_SwerveVision.getVisionEstimatedPose().isPresent()) m_poseEstimator.addVisionMeasurement(m_SwerveVision.getVisionEstimatedPose().get().estimatedPose.toPose2d(), Timer.getFPGATimestamp());
     m_field.setRobotPose(getPoseEstimatorPose());
 
     SmartDashboard.putData("Field", m_field);
