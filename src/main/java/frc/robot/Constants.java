@@ -14,6 +14,7 @@ public class Constants {
     public static final class RobotConstants {
         public static final double PERIODIC_INTERVAL = 0.02; // the periodic ,in seconds
         public static final String CANBUS_NAME = "GTX7130";
+        public static final String LIMELIGHT_NAME = "limelight";
         public static final int DRIVE_CONTROLLER_PORT = 0;
     }
 
