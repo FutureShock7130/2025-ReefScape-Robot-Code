@@ -10,6 +10,15 @@ import frc.robot.Constants.SwerveConstants;
 
 public class SwerveDrive extends SubsystemBase {
 
+    private static SwerveDrive m_instance = null;
+
+    public static SwerveDrive getInstance() {
+        if (m_instance == null) {
+            m_instance = new SwerveDrive();
+        }
+        return m_instance;
+    }
+
     private final SwervePoseEstimator m_PoseEstimator = new SwervePoseEstimator();
 
     private SwerveModule[] modules = new SwerveModule[] {

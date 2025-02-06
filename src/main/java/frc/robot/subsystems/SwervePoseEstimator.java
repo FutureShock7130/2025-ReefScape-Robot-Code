@@ -24,8 +24,17 @@ import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.SwerveConstants;
 
 public class SwervePoseEstimator extends SubsystemBase {
+
+  private static SwervePoseEstimator m_instance = null;
+
+  public static SwervePoseEstimator getInstance() {
+    if (m_instance == null) {
+      m_instance = new SwervePoseEstimator();
+    }
+    return m_instance;
+  }
   
-  private SwerveDrive m_swerve = new SwerveDrive();
+  private SwerveDrive m_swerve = SwerveDrive.getInstance();
 
   private Pigeon2 pigeon = new Pigeon2(SwerveConstants.PIGEON_ID, RobotConstants.CANBUS_NAME);
 

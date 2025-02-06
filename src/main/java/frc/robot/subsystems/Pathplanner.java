@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Pathplanner extends SubsystemBase {
   
-  private SwerveDrive m_swerve = new SwerveDrive();
-  private SwervePoseEstimator m_poseEstimator = new SwervePoseEstimator();
+  private final SwerveDrive m_swerve = SwerveDrive.getInstance();
+  private final SwervePoseEstimator m_poseEstimator = SwervePoseEstimator.getInstance();
 
   private Field2d m_field = new Field2d();
 

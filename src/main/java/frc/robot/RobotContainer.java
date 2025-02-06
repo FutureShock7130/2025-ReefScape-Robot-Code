@@ -15,8 +15,8 @@ public class RobotContainer {
     
     public CommandXboxController controller = new CommandXboxController(RobotConstants.DRIVE_CONTROLLER_PORT);
 
-    private final SwerveDrive swerveD = new SwerveDrive();
-    private final SwervePoseEstimator swervePE = new SwervePoseEstimator();
+    private final SwerveDrive swerveD = SwerveDrive.getInstance();
+    private final SwervePoseEstimator swervePE = SwervePoseEstimator.getInstance();
 
     private final TeleopSwerve teleopSwerve = new TeleopSwerve(swerveD, swervePE, controller);
 
