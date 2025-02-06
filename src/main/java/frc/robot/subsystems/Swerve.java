@@ -37,6 +37,15 @@ public class Swerve extends SubsystemBase {
 
     private Field2d field = new Field2d();
 
+    private static Swerve mInstance;
+
+    public static Swerve getInstance() {
+        if (mInstance == null) {
+            mInstance = new Swerve();
+        }
+        return mInstance;
+    }
+
     public Swerve() {
 
         RobotConfig config = null;

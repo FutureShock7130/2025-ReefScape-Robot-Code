@@ -15,15 +15,17 @@ import frc.robot.Constants.SuperstructureConstants;
 
 public class Intake extends SubsystemBase {
 
-  
-
-
-
-
-
   private final SparkMax mTilter;
   private final SparkMax mRoller;
 
+  private static Intake mInstance = null;
+
+  public static Intake getInstance() {
+    if (mInstance == null) {
+      mInstance = new Intake();
+    }
+    return mInstance;
+  }
   /** Creates a new Intake. */
   public Intake() {
     mTilter = new SparkMax(SuperstructureConstants.INTAKE_TILTER_MOTOR_ID, MotorType.kBrushless);
@@ -34,11 +36,11 @@ public class Intake extends SubsystemBase {
                 PersistMode.kNoPersistParameters);
   }
 
-  public void setTilterSpeed (double spd) {
+  public void setTilterSpeed(double spd) {
     mTilter.set(spd);
   }
 
-  public void setRollerSpeed (double spd) {
+  public void setRollerSpeed(double spd) {
     mRoller.set(spd);
   }
 

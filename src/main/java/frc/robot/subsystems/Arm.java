@@ -14,6 +14,15 @@ public class Arm extends SubsystemBase {
 
     private final SparkMax motor;
 
+    private static Arm mInstance = null;
+
+    public static Arm getInstance() {
+        if (mInstance == null) {
+            mInstance = new Arm();
+        }
+        return mInstance;
+    }
+
     public Arm() {
         motor = new SparkMax(SuperstructureConstants.ARM_MOTOR_ID, MotorType.kBrushless);
         motor.configure(SuperstructureConstants.ARM_MOTOR_CONFIGURATION, ResetMode.kResetSafeParameters,

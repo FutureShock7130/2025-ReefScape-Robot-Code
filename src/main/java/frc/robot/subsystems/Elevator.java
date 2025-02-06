@@ -23,6 +23,15 @@ public class Elevator extends SubsystemBase {
     // cancoder
     private final CANcoder cancoder;
 
+    private static Elevator mInstance = null;
+    
+    public static Elevator getInstance() {
+        if (mInstance == null) {
+            mInstance = new Elevator();
+        }
+        return mInstance;
+    }
+
     public Elevator() {
         leftElevatorMotor = new SparkMax(SuperstructureConstants.RIGHT_ELEVATOR_MOTOR_ID, MotorType.kBrushless);
         leftElevatorMotor.configure(SuperstructureConstants.LEFT_ELEVATOR_MOTOR_CONFIGURATION,

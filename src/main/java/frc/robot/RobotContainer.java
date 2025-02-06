@@ -12,16 +12,16 @@ import frc.robot.subsystems.Swerve;
 
 public class RobotContainer {
     
-    public CommandXboxController controller = new CommandXboxController(RobotConstants.DRIVE_CONTROLLER_PORT);
+    private static CommandXboxController mController = new CommandXboxController(RobotConstants.DRIVE_CONTROLLER_PORT);
 
-    private final Swerve swerve = new Swerve();
+    private final Swerve mSwerve = Swerve.getInstance();
 
-    private final TeleopSwerve teleopSwerve = new TeleopSwerve(swerve, controller);
+    private final TeleopSwerve teleopSwerve = new TeleopSwerve(mSwerve, mController);
 
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        swerve.setDefaultCommand(teleopSwerve);
+        mSwerve.setDefaultCommand(teleopSwerve);
 
         configureButtonBindings();
         autoChooser = AutoBuilder.buildAutoChooser();
@@ -36,7 +36,7 @@ public class RobotContainer {
         return autoChooser.getSelected();
     }
 
-    public CommandXboxController getXboxController() {
-        return controller;
+    public static CommandXboxController getXboxController() {
+        return mController;
     }
 }

@@ -13,6 +13,15 @@ public class Grabber extends SubsystemBase {
 
     private final SparkMax motor;
 
+    private static Grabber mInstance = null;
+
+    public static Grabber getInstance() {
+        if (mInstance == null) {
+            mInstance = new Grabber();
+        }
+        return mInstance;
+    }
+
     public Grabber() {
         motor = new SparkMax(SuperstructureConstants.GRABBER_MOTOR_ID, MotorType.kBrushless);
         motor.configure(SuperstructureConstants.GRABBER_MOTOR_CONFIGURATION, ResetMode.kResetSafeParameters,
