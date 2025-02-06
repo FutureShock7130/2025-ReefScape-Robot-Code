@@ -43,14 +43,77 @@ public class Superstructure extends SubsystemBase {
     mController = RobotContainer.getXboxController();
   }
 
-  public void updateState() {
+  public void idle() {
 
+  }
+
+  public void intakeAlgae() {
+
+  }
+
+  public void scoreProcessor() {
+
+  }
+
+  public void intakeCoral() {
+
+  }
+
+  public void scoreL1() {
+
+  }
+
+  public void scoreL2() {
+
+  }
+
+  public void scoreL3() {
+
+  }
+
+  public void scoreL4() {
+
+  }
+
+  public void shoot() {
+
+  }
+
+  public void updateState() {
+    switch (mCommandedState) {
+      case IDLE:
+        break;
+      case INTAKE_ALGAE:
+        break;
+      case SCORE_PROCESSOR:
+        break;
+      case INTAKE_CORAL:
+        break;
+      case SCORE_L1:
+        break;
+      case SCORE_L2:
+        break;
+      case SCORE_L3:
+        break;
+      case SCORE_L4:
+        break;
+      case SHOOT:
+        break;
+      default:
+        break;
+    }
+  }
+
+  public void updateDriverInput() {
+    // if Driver Press sth, wanted state = hahaha
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     mCommandedState = mStateMachine.getCommandedState();
+    updateDriverInput();
+    updateState();
 
     SmartDashboard.putString("Commanded State", mCommandedState.toString());
     SmartDashboard.putString("Wanted State", mWantedState.toString());

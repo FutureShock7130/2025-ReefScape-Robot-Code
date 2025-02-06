@@ -1,6 +1,5 @@
 package frc.robot.statemachines;
 
-
 public class StateMachine {
     private static StateMachine instance = null;
 

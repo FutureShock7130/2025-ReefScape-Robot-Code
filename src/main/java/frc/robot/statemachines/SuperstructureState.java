@@ -8,5 +8,6 @@ public enum SuperstructureState {
     SCORE_L2,
     SCORE_L3,
     SCORE_L4,
-    IDLE;
+    IDLE,
+    SHOOT;
 }
