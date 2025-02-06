@@ -4,6 +4,7 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SoftLimitConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -87,22 +88,30 @@ public class Constants {
     }
 
     public static final class SuperstructureConstants {
+        /*************** ELEVATOR CONSTANTS ***************/
         // elevator motor constants
-        public static final int LEFT_ELEVATOR_MOTOR_ID = 0;
-        public static final int RIGHT_ELEVATOR_MOTOR_ID = 0;
+        public static final int ELEVATOR_LEFT_MOTOR_ID = 0;
+        public static final int ELEVATOR_RIGHT_MOTOR_ID = 0;
 
         // elevator cancoder constants
         public static final int ELEVATOR_CANCODER_ID = 0;
 
         // elevator motor configuration
-        public static final SparkMaxConfig LEFT_ELEVATOR_MOTOR_CONFIGURATION = new SparkMaxConfig();
+        public static final SparkMaxConfig ELEVATOR_LEFT_MOTOR_CONFIGURATION = new SparkMaxConfig();
         static {
-            LEFT_ELEVATOR_MOTOR_CONFIGURATION.inverted(false);
+            ELEVATOR_LEFT_MOTOR_CONFIGURATION.inverted(false);
+            ELEVATOR_LEFT_MOTOR_CONFIGURATION.idleMode(IdleMode.kBrake);
+            ELEVATOR_LEFT_MOTOR_CONFIGURATION.voltageCompensation(12);
+            ELEVATOR_LEFT_MOTOR_CONFIGURATION.smartCurrentLimit(40);
         }
 
-        public static final SparkMaxConfig RIGHT_ELEVATOR_MOTOR_CONFIGURATION = new SparkMaxConfig();
+        public static final SparkMaxConfig ELEVATOR_RIGHT_MOTOR_CONFIGURATION = new SparkMaxConfig();
         static {
-            RIGHT_ELEVATOR_MOTOR_CONFIGURATION.inverted(false);
+            ELEVATOR_RIGHT_MOTOR_CONFIGURATION.inverted(false);
+            ELEVATOR_RIGHT_MOTOR_CONFIGURATION.idleMode(IdleMode.kBrake);
+            ELEVATOR_RIGHT_MOTOR_CONFIGURATION.voltageCompensation(12);
+            ELEVATOR_RIGHT_MOTOR_CONFIGURATION.smartCurrentLimit(40);
+            
         }
 
         // elevator cancoder configuration
@@ -113,21 +122,102 @@ public class Constants {
             ELEVATOR_CANCODER_CONFIGURATION.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
         }
 
-        // arm (joint) motor constants
-        public static final int ARM_MOTOR_ID = 0;
+        // elevator pid
+        public static final double ELEVATOR_KP = 0;
+        public static final double ELEVATOR_KI = 0;
+        public static final double ELEVATOR_KD = 0;
 
-        // arm motor configuration
-        public static final SparkMaxConfig ARM_MOTOR_CONFIGURATION = new SparkMaxConfig();
+        // elevator feedforward
+        public static final double ELEVATOR_KS = 0.03;
+
+        /*************** GRABBER CONSTANTS ***************/
+        // grabber motor constants
+        public static final int GRABBER_UP_MOTOR_ID = 0;
+        public static final int GRABBER_LOW_MOTOR_ID = 0;
+        public static final int GRABBER_ANGLE_MOTOR_ID = 0;
+        
+        // grabber cancoder constants
+        public static final int GRABBER_CANCODER_ID = 0;
+
+        // grabber ratio
+        public static final double GRABBER_ANGLE_RATIO = 18.75; // 3:1, 5:1, 12->15
+
+        // grabber motor configuration
+        public static final SparkMaxConfig GRABBER_UP_MOTOR_CONFIGURATION = new SparkMaxConfig();
         static {
+            GRABBER_UP_MOTOR_CONFIGURATION.inverted(true);
+            GRABBER_UP_MOTOR_CONFIGURATION.idleMode(IdleMode.kBrake);
+            GRABBER_UP_MOTOR_CONFIGURATION.voltageCompensation(12);
+        }
+        public static final SparkMaxConfig GRABBER_LOW_MOTOR_CONFIGURATION = new SparkMaxConfig();
+        static {
+            GRABBER_LOW_MOTOR_CONFIGURATION.inverted(false);
+            GRABBER_LOW_MOTOR_CONFIGURATION.idleMode(IdleMode.kBrake);
+            GRABBER_LOW_MOTOR_CONFIGURATION.voltageCompensation(12);
+        }
+        public static final SparkMaxConfig GRABBER_ANGLE_MOTOR_CONFIGURATION = new SparkMaxConfig();
+        static {
+            GRABBER_ANGLE_MOTOR_CONFIGURATION.inverted(false);
+            GRABBER_ANGLE_MOTOR_CONFIGURATION.idleMode(IdleMode.kBrake);
+            GRABBER_ANGLE_MOTOR_CONFIGURATION.voltageCompensation(12);
+            GRABBER_ANGLE_MOTOR_CONFIGURATION.smartCurrentLimit(50);
+            GRABBER_ANGLE_MOTOR_CONFIGURATION.absoluteEncoder.positionConversionFactor(GRABBER_ANGLE_RATIO);
         }
 
-        // intaker motor constants
-        public static final int INTAKER_MOTOR_ID = 0;
-
-        // intaker motor configuration
-        public static final SparkMaxConfig INTAKER_MOTOR_CONFIGURATION = new SparkMaxConfig();
+        // grabber cancoder configuration
+        public static final CANcoderConfiguration GRABBER_CANCODER_CONFIGURATION = new CANcoderConfiguration();
         static {
-            INTAKER_MOTOR_CONFIGURATION.inverted(false);
+            GRABBER_CANCODER_CONFIGURATION.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
+            GRABBER_CANCODER_CONFIGURATION.MagnetSensor.MagnetOffset = 0;
+            GRABBER_CANCODER_CONFIGURATION.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
         }
+
+        // grabber pid
+        public static final double GRABBER_KP = 0;
+        public static final double GRABBER_KI = 0;
+        public static final double GRABBER_KD = 0;
+
+        // grabber feedforward
+        public static final double GRABBER_KS = 0;
+        public static final double GRABBER_KV = 0;
+        public static final double GRABBER_KA = 0;
+
+        /*************** INTAKE CONSTANTS ***************/
+        // intake motor constants
+        public static final int INTAKE_MOTOR_ID = 0;
+        public static final int INTAKE_ANGLE_MOTOR_ID = 0;
+
+        // intake cancoder constants
+        public static final int INTAKE_CANCODER_ID = 0;
+
+        // intake ratio
+        public static final double INTAKE_ANGLE_RATIO = 61.875; // 5:1, 9:1, 16->22
+
+        // intake motor configuration
+        public static final SparkMaxConfig INTAKE_MOTOR_CONFIGURATION = new SparkMaxConfig();
+        static {
+            INTAKE_MOTOR_CONFIGURATION.inverted(false);
+            INTAKE_MOTOR_CONFIGURATION.idleMode(IdleMode.kCoast);
+            INTAKE_MOTOR_CONFIGURATION.voltageCompensation(12);
+        }
+        public static final SparkMaxConfig INTAKE_ANGLE_MOTOR_CONFIGURATION = new SparkMaxConfig();
+        static {
+            INTAKE_ANGLE_MOTOR_CONFIGURATION.inverted(false);
+            INTAKE_ANGLE_MOTOR_CONFIGURATION.idleMode(IdleMode.kBrake);
+            INTAKE_ANGLE_MOTOR_CONFIGURATION.voltageCompensation(12);
+        }
+
+        // intake cancoder configuration
+        public static final CANcoderConfiguration INTAKE_CANCODER_CONFIGURATION = new CANcoderConfiguration();
+        static {
+            INTAKE_CANCODER_CONFIGURATION.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
+            INTAKE_CANCODER_CONFIGURATION.MagnetSensor.MagnetOffset = 0;
+            INTAKE_CANCODER_CONFIGURATION.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+        }
+
+        // intake pid
+        public static final double INTAKE_KP = 0;
+        public static final double INTAKE_KI = 0;
+        public static final double INTAKE_KD = 0;
     }
 }
