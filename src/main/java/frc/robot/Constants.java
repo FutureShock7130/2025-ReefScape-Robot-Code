@@ -88,24 +88,21 @@ public class Constants {
 
     public static final class SuperstructureConstants {
         // elevator motor constants
+        // TODO: fill the int
         public static final int LEFT_ELEVATOR_MOTOR_ID = 0;
         public static final int RIGHT_ELEVATOR_MOTOR_ID = 0;
 
         // elevator cancoder constants
+        // TODO: fill the int
         public static final int ELEVATOR_CANCODER_ID = 0;
-
-        // elevator motor configuration
         public static final SparkMaxConfig LEFT_ELEVATOR_MOTOR_CONFIGURATION = new SparkMaxConfig();
         static {
             LEFT_ELEVATOR_MOTOR_CONFIGURATION.inverted(false);
         }
-
         public static final SparkMaxConfig RIGHT_ELEVATOR_MOTOR_CONFIGURATION = new SparkMaxConfig();
         static {
             RIGHT_ELEVATOR_MOTOR_CONFIGURATION.inverted(false);
         }
-
-        // elevator cancoder configuration
         public static final CANcoderConfiguration ELEVATOR_CANCODER_CONFIGURATION = new CANcoderConfiguration();
         static {
             ELEVATOR_CANCODER_CONFIGURATION.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
@@ -114,20 +111,26 @@ public class Constants {
         }
 
         // arm (joint) motor constants
+        // TODO: fill the int
         public static final int ARM_MOTOR_ID = 0;
-
-        // arm motor configuration
         public static final SparkMaxConfig ARM_MOTOR_CONFIGURATION = new SparkMaxConfig();
         static {
         }
 
-        // intaker motor constants
-        public static final int INTAKER_MOTOR_ID = 0;
-
-        // intaker motor configuration
-        public static final SparkMaxConfig INTAKER_MOTOR_CONFIGURATION = new SparkMaxConfig();
+        // grabber motor constants
+        // TODO: fill the int
+        public static final int GRABBER_MOTOR_ID = 0;
+        public static final SparkMaxConfig GRABBER_MOTOR_CONFIGURATION = new SparkMaxConfig();
         static {
-            INTAKER_MOTOR_CONFIGURATION.inverted(false);
+            GRABBER_MOTOR_CONFIGURATION.inverted(false);
+        }
+
+        // intake motor constants
+        // TODO: fill the int
+        public static final int INTAKE_MOTOR_ID = 0;
+        public static final SparkMaxConfig INTAKE_MOTOR_CONFIGURATION = new SparkMaxConfig();
+        static {
+            GRABBER_MOTOR_CONFIGURATION.inverted(false);
         }
     }
 }
