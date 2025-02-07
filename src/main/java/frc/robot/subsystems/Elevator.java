@@ -9,13 +9,21 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SuperstructureConstants;
 
 public class Elevator extends SubsystemBase {
+    /*
+     * 3 stage elevator and 1 carriage
+     */
+
     // motors
     private final SparkMax leftElevatorMotor;
     private final SparkMax rightElevatorMotor;
@@ -32,13 +40,29 @@ public class Elevator extends SubsystemBase {
         return mInstance;
     }
 
+    private static Elevator mInstance = null;
+    
+    public static Elevator getInstance() {
+        if (mInstance == null) {
+            mInstance = new Elevator();
+        }
+        return mInstance;
+    }
+
+    // shuffleboard
+    ShuffleboardTab tab = Shuffleboard.getTab("Elevator");
+    GenericEntry elevatorHeight = tab.add("Elevator Height", 0)
+        .withPosition(0, 0).withSize(2, 1)
+        .withWidget(BuiltInWidgets.kTextView)
+        .getEntry();
+
     public Elevator() {
-        leftElevatorMotor = new SparkMax(SuperstructureConstants.RIGHT_ELEVATOR_MOTOR_ID, MotorType.kBrushless);
-        leftElevatorMotor.configure(SuperstructureConstants.LEFT_ELEVATOR_MOTOR_CONFIGURATION,
+        leftElevatorMotor = new SparkMax(SuperstructureConstants.ELEVATOR_LEFT_MOTOR_ID, MotorType.kBrushless);
+        leftElevatorMotor.configure(SuperstructureConstants.ELEVATOR_LEFT_MOTOR_CONFIGURATION,
                 ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-        rightElevatorMotor = new SparkMax(SuperstructureConstants.RIGHT_ELEVATOR_MOTOR_ID, MotorType.kBrushless);
-        rightElevatorMotor.configure(SuperstructureConstants.RIGHT_ELEVATOR_MOTOR_CONFIGURATION,
+        rightElevatorMotor = new SparkMax(SuperstructureConstants.ELEVATOR_RIGHT_MOTOR_ID, MotorType.kBrushless);
+        rightElevatorMotor.configure(SuperstructureConstants.ELEVATOR_RIGHT_MOTOR_CONFIGURATION,
                 ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
         cancoder = new CANcoder(SuperstructureConstants.ELEVATOR_CANCODER_ID);
@@ -61,6 +85,6 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("elevator position", getElevatorHeight().in(Meters));
+        elevatorHeight.setDouble(getElevatorHeight().in(Meters));
     }
 }
