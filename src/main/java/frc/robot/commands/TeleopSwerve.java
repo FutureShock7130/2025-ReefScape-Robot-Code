@@ -51,7 +51,7 @@ public class TeleopSwerve extends Command {
 
         // square the input to inprove driving experience
         xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
-        ySpeed = Math.copySign(ySpeed * ySpeed, ySpeed);        
+        ySpeed = Math.copySign(ySpeed * ySpeed, ySpeed);
         rotSpeed = Math.copySign(rotSpeed * rotSpeed, rotSpeed);
 
         swerve.drive(

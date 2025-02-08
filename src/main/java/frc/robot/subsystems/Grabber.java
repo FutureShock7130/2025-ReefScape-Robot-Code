@@ -42,17 +42,17 @@ public class Grabber extends SubsystemBase {
     // shuffleboard
     ShuffleboardTab tab = Shuffleboard.getTab("Grabber");
     GenericEntry upMotorSpeed = tab.add("Up Motor Speed (RPM)", 0)
-        .withPosition(0, 0).withSize(2, 1)
-        .withWidget(BuiltInWidgets.kTextView)
-        .getEntry();
+            .withPosition(0, 0).withSize(2, 1)
+            .withWidget(BuiltInWidgets.kTextView)
+            .getEntry();
     GenericEntry lowMotorSpeed = tab.add("Low Motor Speed (RPM)", 0)
-        .withPosition(1, 0).withSize(2, 1)
-        .withWidget(BuiltInWidgets.kTextView)
-        .getEntry();
+            .withPosition(1, 0).withSize(2, 1)
+            .withWidget(BuiltInWidgets.kTextView)
+            .getEntry();
     GenericEntry angle = tab.add("Grabber Angle (degrees)", 0)
-        .withPosition(2, 0)
-        .withWidget(BuiltInWidgets.kTextView)
-        .getEntry();
+            .withPosition(2, 0)
+            .withWidget(BuiltInWidgets.kTextView)
+            .getEntry();
 
     public Grabber() {
         upMotor = new SparkMax(SuperstructureConstants.GRABBER_UP_MOTOR_ID, MotorType.kBrushless);

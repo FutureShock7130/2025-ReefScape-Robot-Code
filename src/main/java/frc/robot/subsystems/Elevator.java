@@ -34,9 +34,9 @@ public class Elevator extends SubsystemBase {
     // shuffleboard
     ShuffleboardTab tab = Shuffleboard.getTab("Elevator");
     GenericEntry elevatorHeight = tab.add("Elevator Height", 0)
-        .withPosition(0, 0).withSize(2, 1)
-        .withWidget(BuiltInWidgets.kTextView)
-        .getEntry();
+            .withPosition(0, 0).withSize(2, 1)
+            .withWidget(BuiltInWidgets.kTextView)
+            .getEntry();
 
     public Elevator() {
         leftElevatorMotor = new SparkMax(SuperstructureConstants.ELEVATOR_LEFT_MOTOR_ID, MotorType.kBrushless);
