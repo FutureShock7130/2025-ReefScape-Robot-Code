@@ -11,7 +11,6 @@ import frc.robot.statemachines.SuperstructureState;
 
 public class Superstructure extends SubsystemBase {
 
-    Arm mArm;
     Elevator mElevator;
     Grabber mGrabber;
     Intake mIntake;
@@ -30,7 +29,6 @@ public class Superstructure extends SubsystemBase {
 
     /** Creates a new StateMachine. */
     public Superstructure() {
-        mArm = Arm.getInstance();
         mElevator = Elevator.getInstance();
         mGrabber = Grabber.getInstance();
         mIntake = Intake.getInstance();

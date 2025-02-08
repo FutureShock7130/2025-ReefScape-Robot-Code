@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.commands.TeleopSuperstructure;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.Intake;
@@ -25,7 +24,6 @@ public class RobotContainer {
     private static ButtonBox m_buttonbox;
 
     private final Swerve m_swerve;
-    private final Arm m_arm;
     private final Elevator m_elevator;
     private final Grabber m_grabber;
     private final Intake m_intake;
@@ -43,7 +41,6 @@ public class RobotContainer {
         m_buttonbox = new ButtonBox(joystick);
 
         m_swerve = Swerve.getInstance();
-        m_arm = Arm.getInstance();
         m_elevator = Elevator.getInstance();
         m_grabber = Grabber.getInstance();
         m_intake = Intake.getInstance();
