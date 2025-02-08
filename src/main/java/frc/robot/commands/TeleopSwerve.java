@@ -1,17 +1,19 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.Swerve;
 
 public class TeleopSwerve extends Command {
 
-    private final Swerve swerve;
+    private final Swerve m_Swerve;
 
     private SlewRateLimiter xLimiter = new SlewRateLimiter(3.0);
     private SlewRateLimiter yLimiter = new SlewRateLimiter(3.0);
@@ -23,45 +25,46 @@ public class TeleopSwerve extends Command {
 
     private double reduction = 1;
 
-    private CommandXboxController controller;
+    private CommandXboxController m_Driver;
 
-    public TeleopSwerve(Swerve swerve, CommandXboxController controller) {
-        this.swerve = swerve;
-        this.controller = controller;
-        addRequirements(swerve);
+    public TeleopSwerve(Swerve m_Swerve, CommandXboxController m_Driver) {
+        this.m_Swerve = m_Swerve;
+        this.m_Driver = m_Driver;
+        addRequirements(m_Swerve);
     }
 
     @Override
     public void execute() {
 
-        if (controller.getHID().getAButtonPressed()) {
-            swerve.setOdometryPosition(new Pose2d());
-            swerve.setGyroYaw(new Rotation2d());
+        if (m_Driver.getHID().getBackButtonPressed()) {
+            m_Swerve.setOdometryPosition(new Pose2d());
+            m_Swerve.setGyroYaw(new Rotation2d());
         }
 
-        if (controller.getHID().getRightBumperButton()) {
-            reduction = 0.3;
-        } else {
-            reduction = 1;
+        double slow = 1;
+        if (m_Driver.getHID().getLeftBumperButton() || m_Driver.getHID().getRightBumperButton())  {
+            slow = 0.5;
         }
 
-        xSpeed = xLimiter.calculate(-controller.getLeftY() * reduction);
-        ySpeed = yLimiter.calculate(-controller.getLeftX() * reduction);
-        rotSpeed = rotLimiter.calculate(-controller.getRightX() * reduction);
+        double deadband = 0.04;
+        double xyMultiplier = 1;
+        double zMultiplier = 0.75;
 
-        // square the input to inprove driving experience
+        xSpeed = xLimiter.calculate(MathUtil.applyDeadband(-m_Driver.getLeftY(), deadband));
+        ySpeed = yLimiter.calculate(MathUtil.applyDeadband(-m_Driver.getLeftX(), deadband));
+        rotSpeed = rotLimiter.calculate(MathUtil.applyDeadband(-m_Driver.getRightX(), deadband));
         xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
-        ySpeed = Math.copySign(ySpeed * ySpeed, ySpeed);        
-        rotSpeed = Math.copySign(rotSpeed * rotSpeed, rotSpeed);
-
-        swerve.drive(
-                new Translation2d(xSpeed, ySpeed).times(SwerveConstants.MAX_MODULE_SPEED),
-                rotSpeed * SwerveConstants.MAX_MODULE_ROTATIONAL_SPEED,
+        ySpeed = Math.copySign(ySpeed * ySpeed, ySpeed);
+        // rotSpeed = Math.copySign(rotSpeed * rotSpeed, rotSpeed);
+        m_Swerve.drive(
+                new Translation2d(xSpeed, ySpeed).times(SwerveConstants.MAX_MODULE_SPEED).times(xyMultiplier).times(slow),
+                rotSpeed * SwerveConstants.MAX_MODULE_ROTATIONAL_SPEED * zMultiplier * slow,
+                // 0,
                 true);
     }
 
     @Override
     public void end(boolean interrupted) {
-        swerve.drive(new Translation2d(), 0, false);
+        m_Swerve.drive(new Translation2d(), 0, false);
     }
 }

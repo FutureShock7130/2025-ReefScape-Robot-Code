@@ -24,6 +24,14 @@ import frc.robot.Constants.SwerveConstants;
 
 public class Swerve extends SubsystemBase {
 
+    private static Swerve m_Instance = null;
+    public static Swerve getInstance() {
+        if (m_Instance == null) {
+            m_Instance = new Swerve();
+        }
+        return m_Instance;
+    }
+
     private Pigeon2 pigeon = new Pigeon2(SwerveConstants.PIGEON_ID, RobotConstants.CANBUS_NAME);
 
     private SwerveModule[] modules = new SwerveModule[] {
