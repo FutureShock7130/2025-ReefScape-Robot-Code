@@ -7,11 +7,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.SwervePoseEstimator;
 
 public class TeleopSwerve extends Command {
 
-    private final Swerve swerve;
+    private final SwerveDrive swerve;
+    private final SwervePoseEstimator poseEstimator;
 
     private SlewRateLimiter xLimiter = new SlewRateLimiter(3.0);
     private SlewRateLimiter yLimiter = new SlewRateLimiter(3.0);
@@ -25,18 +27,20 @@ public class TeleopSwerve extends Command {
 
     private CommandXboxController controller;
 
-    public TeleopSwerve(Swerve swerve, CommandXboxController controller) {
+    public TeleopSwerve(SwerveDrive swerve, SwervePoseEstimator poseEstimator, CommandXboxController controller) {
         this.swerve = swerve;
+        this.poseEstimator = poseEstimator;
         this.controller = controller;
         addRequirements(swerve);
+        addRequirements(poseEstimator);
     }
 
     @Override
     public void execute() {
 
         if (controller.getHID().getAButtonPressed()) {
-            swerve.setOdometryPosition(new Pose2d());
-            swerve.setGyroYaw(new Rotation2d());
+            poseEstimator.setPoseEstimatorPose(new Pose2d());
+            poseEstimator.setGyroYaw(new Rotation2d());
         }
 
         if (controller.getHID().getRightBumperButton()) {

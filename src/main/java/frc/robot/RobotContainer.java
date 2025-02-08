@@ -16,6 +16,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.SwervePoseEstimator;
 
 public class RobotContainer {
     
@@ -29,9 +31,12 @@ public class RobotContainer {
     private final Intake m_intake;
     private final LED m_led;
     private final Superstructure m_superstructure;
+    private final SwerveDrive swerveD = SwerveDrive.getInstance();
+    private final SwervePoseEstimator swervePE = SwervePoseEstimator.getInstance();
 
     private final TeleopSwerve teleopSwerve;
     private final TeleopSuperstructure teleopSuperstructure;
+    private final TeleopSwerve teleopSwerve = new TeleopSwerve(swerveD, swervePE, controller);
 
     private final SendableChooser<Command> autoChooser;
 
@@ -52,6 +57,8 @@ public class RobotContainer {
 
         m_swerve.setDefaultCommand(teleopSwerve);
         m_superstructure.setDefaultCommand(teleopSuperstructure);
+        swerveD.setDefaultCommand(teleopSwerve);
+        swervePE.setDefaultCommand(teleopSwerve);
 
         configureButtonBindings();
         autoChooser = AutoBuilder.buildAutoChooser();
