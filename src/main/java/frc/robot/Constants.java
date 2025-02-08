@@ -16,6 +16,7 @@ public class Constants {
         public static final double PERIODIC_INTERVAL = 0.02; // the periodic ,in seconds
         public static final String CANBUS_NAME = "GTX7130";
         public static final int DRIVE_CONTROLLER_PORT = 0;
+        public static final int OPERATOR_BUTTONBOX_PORT = 1;
     }
 
     public static final class SwerveConstants {
@@ -109,7 +110,6 @@ public class Constants {
             ELEVATOR_LEFT_MOTOR_CONFIGURATION.voltageCompensation(12);
             ELEVATOR_LEFT_MOTOR_CONFIGURATION.smartCurrentLimit(40);
         }
-
         public static final SparkMaxConfig ELEVATOR_RIGHT_MOTOR_CONFIGURATION = new SparkMaxConfig();
         static {
             ELEVATOR_RIGHT_MOTOR_CONFIGURATION.inverted(false);
@@ -223,5 +223,14 @@ public class Constants {
         public static final double INTAKE_KP = 0;
         public static final double INTAKE_KI = 0;
         public static final double INTAKE_KD = 0;
+
+        /*************** ARM CONSTANTS ***************/
+        public static final int ARM_MOTOR_ID = 0;
+
+        public static final SparkMaxConfig ARM_MOTOR_CONFIGURATION = new SparkMaxConfig();
+    }
+
+    public static final class JoystickConstants {
+
     }
 }
