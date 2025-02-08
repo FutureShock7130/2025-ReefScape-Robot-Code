@@ -87,9 +87,9 @@ public class Intake extends SubsystemBase {
         return intakeMotor.getEncoder().getVelocity();
     }
 
-  public double getAngle() {
-    return Rotation2d.fromRotations(cancoder.getAbsolutePosition().getValueAsDouble()).getDegrees();
-  }
+    public double getAngle() {
+        return Rotation2d.fromRotations(cancoder.getAbsolutePosition().getValueAsDouble()).getDegrees();
+    }
 
     @Override
     public void periodic() {

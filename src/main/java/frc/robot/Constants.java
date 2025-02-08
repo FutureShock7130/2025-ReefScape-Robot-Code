@@ -110,7 +110,6 @@ public class Constants {
             ELEVATOR_LEFT_MOTOR_CONFIGURATION.voltageCompensation(12);
             ELEVATOR_LEFT_MOTOR_CONFIGURATION.smartCurrentLimit(40);
         }
-
         public static final SparkMaxConfig ELEVATOR_RIGHT_MOTOR_CONFIGURATION = new SparkMaxConfig();
         static {
             ELEVATOR_RIGHT_MOTOR_CONFIGURATION.inverted(false);
