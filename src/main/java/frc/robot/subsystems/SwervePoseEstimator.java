@@ -6,9 +6,6 @@ package frc.robot.subsystems;
 
 import java.util.function.Supplier;
 
-import com.ctre.phoenix6.hardware.Pigeon2;
-
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,7 +17,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.IO.GyroIO;
 import frc.robot.IO.GyroIO.GyroIOInputs;
