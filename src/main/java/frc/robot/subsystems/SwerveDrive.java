@@ -19,8 +19,6 @@ public class SwerveDrive extends SubsystemBase {
         return m_instance;
     }
 
-    private final SwervePoseEstimator m_PoseEstimator = new SwervePoseEstimator();
-
     private SwerveModule[] modules = new SwerveModule[] {
             new SwerveModule(0, SwerveConstants.MOD0_CONSTANTS),
             new SwerveModule(1, SwerveConstants.MOD1_CONSTANTS),
@@ -33,14 +31,14 @@ public class SwerveDrive extends SubsystemBase {
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative) {
         ChassisSpeeds chassisSpeeds = fieldRelative
-                ? ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation, m_PoseEstimator.getGyroYaw())
+                ? ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation, SwerveConstants.gyroYaw)
                 : new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
         SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(chassisSpeeds);
         setModuleStates(moduleStates);
     }
 
     public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
-        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.01);
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
         SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
         setModuleStates(targetStates);
     }

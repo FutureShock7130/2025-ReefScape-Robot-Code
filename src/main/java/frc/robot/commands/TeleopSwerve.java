@@ -40,7 +40,6 @@ public class TeleopSwerve extends Command {
 
         if (controller.getHID().getAButtonPressed()) {
             poseEstimator.setPoseEstimatorPose(new Pose2d());
-            poseEstimator.setGyroYaw(new Rotation2d());
         }
 
         if (controller.getHID().getRightBumperButton()) {

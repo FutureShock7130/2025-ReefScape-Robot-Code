@@ -11,6 +11,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -42,8 +43,10 @@ public class Constants {
         public static final int STEER_MOTOR_LIMIT = 0;
 
         public static final double DRIVE_MOTOR_GEAR_RATIO = 6.122449;
-        public static final double DRIVE_WHEEL_DIAMETERS = 4 * 0.0254; // meters
+        public static final double DRIVE_WHEEL_DIAMETERS = 0.0964511800486235; // meters
         public static final double DRIVE_WHEEL_PERIMETER = Math.PI * DRIVE_WHEEL_DIAMETERS; // meters
+
+        public static Rotation2d gyroYaw = new Rotation2d();
 
         public static final Translation2d[] MODULE_TRANSLATOIN_METERS = new Translation2d[] {
                 new Translation2d(WHEEL_BASE / 2.0, WHEEL_BASE / 2.0),

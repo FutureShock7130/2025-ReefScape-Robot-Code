@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.RobotConstants;
+import frc.robot.IO.GyroIOPigeon2;
 import frc.robot.commands.PathPlannerCommand;
 import frc.robot.commands.TeleopSuperstructure;
 import frc.robot.commands.TeleopSwerve;
@@ -46,7 +47,7 @@ public class RobotContainer {
         m_buttonbox = new ButtonBox(joystick);
 
         m_swerveD = SwerveDrive.getInstance();
-        m_swervePE = SwervePoseEstimator.getInstance();
+        m_swervePE = SwervePoseEstimator.getInstance(new GyroIOPigeon2());
         m_pathplanner = PathPlanner.getInstance();
         m_elevator = Elevator.getInstance();
         m_grabber = Grabber.getInstance();

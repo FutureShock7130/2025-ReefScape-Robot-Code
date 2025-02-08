@@ -17,6 +17,7 @@ import com.pathplanner.lib.config.RobotConfig;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -98,6 +99,17 @@ public class SwerveVision extends SubsystemBase {
 
   public Matrix<N3, N1> getEstimationStdDevs() {
       return curStdDevs;
+  }
+
+  public Pose2d getLatestPose() {
+      Optional<EstimatedRobotPose> visionEst = getVisionEstimatedPose();
+      
+      // Check if we have a valid vision estimate >w<
+      if (visionEst.isPresent()) {
+          return visionEst.get().estimatedPose.toPose2d();
+      }
+      
+      return null; // No valid pose found ʕ•ᴥ•ʔ
   }
 
   @Override

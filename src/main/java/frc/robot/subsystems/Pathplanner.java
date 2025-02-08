@@ -13,6 +13,7 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.IO.GyroIOPigeon2;
 
 public class PathPlanner extends SubsystemBase {
 
@@ -26,7 +27,7 @@ public class PathPlanner extends SubsystemBase {
   }
   
   private final SwerveDrive m_swerve = SwerveDrive.getInstance();
-  private final SwervePoseEstimator m_poseEstimator = SwervePoseEstimator.getInstance();
+  private final SwervePoseEstimator m_poseEstimator = SwervePoseEstimator.getInstance(new GyroIOPigeon2());
 
   private Field2d m_field = new Field2d();
 
