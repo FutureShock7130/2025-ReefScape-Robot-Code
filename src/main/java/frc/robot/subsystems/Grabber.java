@@ -54,13 +54,13 @@ public class Grabber extends SubsystemBase {
             .withWidget(BuiltInWidgets.kTextView)
             .getEntry();
 
-    private static Grabber mInstance = null;
+    private static Grabber m_Instance = null;
 
     public static Grabber getInstance() {
-        if (mInstance == null) {
-            mInstance = new Grabber();
+        if (m_Instance == null) {
+            m_Instance = new Grabber();
         }
-        return mInstance;
+        return m_Instance;
     }
 
     public Grabber() {

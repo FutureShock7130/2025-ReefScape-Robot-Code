@@ -14,14 +14,23 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Pathplanner extends SubsystemBase {
+public class PathPlanner extends SubsystemBase {
+
+  private static PathPlanner m_instance = null;
+
+  public static PathPlanner getInstance() {
+      if (m_instance == null) {
+          m_instance = new PathPlanner();
+      }
+      return m_instance;
+  }
   
   private final SwerveDrive m_swerve = SwerveDrive.getInstance();
   private final SwervePoseEstimator m_poseEstimator = SwervePoseEstimator.getInstance();
 
   private Field2d m_field = new Field2d();
 
-  public Pathplanner() {
+  public PathPlanner() {
 
     RobotConfig config = null;
         try {

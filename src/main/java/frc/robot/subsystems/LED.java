@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LED extends SubsystemBase {
 
-    private static LED mInstance = null;
+    private static LED m_Instance = null;
 
     public static LED getInstance() {
-        if (mInstance == null) {
-            mInstance = new LED();
+        if (m_Instance == null) {
+            m_Instance = new LED();
         }
-        return mInstance;
+        return m_Instance;
     }
 
     /** Creates a new LED. */

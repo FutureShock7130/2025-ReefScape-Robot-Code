@@ -31,13 +31,13 @@ public class Elevator extends SubsystemBase {
     // cancoder
     private final CANcoder cancoder;
 
-    private static Elevator mInstance = null;
+    private static Elevator m_Instance = null;
     
     public static Elevator getInstance() {
-        if (mInstance == null) {
-            mInstance = new Elevator();
+        if (m_Instance == null) {
+            m_Instance = new Elevator();
         }
-        return mInstance;
+        return m_Instance;
     }
 
     // shuffleboard
