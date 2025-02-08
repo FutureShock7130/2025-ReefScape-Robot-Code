@@ -45,7 +45,8 @@ public class SwerveModule {
         lastAngle = new Rotation2d();
 
         steerMotor = new SparkMax(moduleConstants.SteerMotorId, MotorType.kBrushless);
-        steerMotor.configure(SwerveConstants.STEER_MOTOR_CONFIGURATION, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+        steerMotor.configure(SwerveConstants.STEER_MOTOR_CONFIGURATION, ResetMode.kResetSafeParameters,
+                PersistMode.kNoPersistParameters);
 
         driveMotor = new TalonFX(moduleConstants.DriveMotorId, RobotConstants.CANBUS_NAME);
         driveMotor.getConfigurator().apply(SwerveConstants.DRIVE_MOTOR_CONFIGURATION);

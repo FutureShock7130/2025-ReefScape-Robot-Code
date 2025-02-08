@@ -1,16 +1,16 @@
 package frc.FSLib2025.math;
 
 public class Maths {
-    
-    public static boolean isWithin (double value, double min, double max) {
+
+    public static boolean isWithin(double value, double min, double max) {
         return Math.max(min, value) == Math.min(value, max);
     }
-    
-    public static double clamp (double value, double min, double max) {
+
+    public static double clamp(double value, double min, double max) {
         return Math.min(Math.max(value, min), max);
     }
 
-    public static int clamp (int value, int min, int max) {
+    public static int clamp(int value, int min, int max) {
         return Math.min(Math.max(value, min), max);
     }
 

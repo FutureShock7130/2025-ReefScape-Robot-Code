@@ -139,7 +139,7 @@ public class Constants {
         public static final int GRABBER_UP_MOTOR_ID = 0;
         public static final int GRABBER_LOW_MOTOR_ID = 0;
         public static final int GRABBER_ANGLE_MOTOR_ID = 0;
-        
+
         // grabber cancoder constants
         public static final int GRABBER_CANCODER_ID = 0;
 
