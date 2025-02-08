@@ -38,9 +38,9 @@ public class RobotContainer {
     }
 
     private BooleanSupplier isDriverControll = () -> {
-        return m_Driver.getHID().getLeftX() >= 0.02 
-                || m_Driver.getHID().getLeftY() >= 0.02
-                || m_Driver.getHID().getRightX() >= 0.02 
+        return Math.abs(m_Driver.getHID().getLeftX()) >= 0.02 
+                || Math.abs(m_Driver.getHID().getLeftY()) >= 0.02
+                || Math.abs(m_Driver.getHID().getRightX()) >= 0.02 
                 || m_Driver.getHID().getAButton()
                 || m_Driver.getHID().getBButton() 
                 || m_Driver.getHID().getXButton() 
@@ -50,9 +50,9 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /***** SOME EXAMPLE BELOW, ADD LATER*****/
         // run a path to certain pose automatically
-        m_Operator.a().and(m_Operator.b()).onTrue(m_GeneratePath.PathFindToPose(FieldConstants.A).until(isDriverControll));
-        m_Operator.a().and(m_Operator.x()).onTrue(m_GeneratePath.PathFindToPose(FieldConstants.CSL).until(isDriverControll));
-        m_Operator.a().and(m_Operator.y()).onTrue(m_GeneratePath.PathFindToPose(FieldConstants.CSR).until(isDriverControll));
+        m_Operator.a().and(m_Operator.b()).onTrue(m_GeneratePath.pathFindToPose(FieldConstants.A).until(isDriverControll));
+        m_Operator.a().and(m_Operator.x()).onTrue(m_GeneratePath.pathFindToPose(FieldConstants.CSL).until(isDriverControll));
+        m_Operator.a().and(m_Operator.y()).onTrue(m_GeneratePath.pathFindToPose(FieldConstants.CSR).until(isDriverControll));
         // driver can reset odometry while operator is scoring/intaking
         m_Driver.back().and(m_Driver.leftBumper()).onTrue(Commands.runOnce(() -> m_Swerve.setOdometryPosition(FieldConstants.CSL), m_Swerve));
         m_Driver.back().and(m_Operator.rightBumper()).onTrue(Commands.runOnce(() -> m_Swerve.setOdometryPosition(FieldConstants.CSR), m_Swerve));
