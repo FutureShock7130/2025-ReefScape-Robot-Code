@@ -40,15 +40,6 @@ public class Elevator extends SubsystemBase {
         return mInstance;
     }
 
-    private static Elevator mInstance = null;
-    
-    public static Elevator getInstance() {
-        if (mInstance == null) {
-            mInstance = new Elevator();
-        }
-        return mInstance;
-    }
-
     // shuffleboard
     ShuffleboardTab tab = Shuffleboard.getTab("Elevator");
     GenericEntry elevatorHeight = tab.add("Elevator Height", 0)

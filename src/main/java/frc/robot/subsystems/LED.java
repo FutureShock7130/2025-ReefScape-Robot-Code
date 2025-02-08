@@ -7,11 +7,22 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LED extends SubsystemBase {
-  /** Creates a new LED. */
-  public LED() {}
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    private static LED mInstance = null;
+
+    public static LED getInstance() {
+        if (mInstance == null) {
+            mInstance = new LED();
+        }
+        return mInstance;
+    }
+
+    /** Creates a new LED. */
+    public LED() {
+    }
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
 }

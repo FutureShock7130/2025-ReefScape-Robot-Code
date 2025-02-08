@@ -20,71 +20,80 @@ import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.SuperstructureConstants;
 
 public class Intake extends SubsystemBase {
-  /*
-   * a simple intake with a row of jelly wheels 
-   * can pick up ALGAE from the floor
-   * it can help the robot climb 
-   * when folded into the chassis with DEEP CAGE
-   * 
-   * control jelly wheels by NEO 550
-   * control its angle by NEO Brushless (gear ratio : 61.875)
-   */
+    /*
+     * a simple intake with a row of jelly wheels
+     * can pick up ALGAE from the floor
+     * it can help the robot climb
+     * when folded into the chassis with DEEP CAGE
+     * 
+     * control jelly wheels by NEO 550
+     * control its angle by NEO Brushless (gear ratio : 61.875)
+     */
 
-  // motor for jelly wheels
-  private final SparkMax intakeMotor;
-  
-  // motor for angle
-  private final SparkMax angleMotor;
+    // motor for jelly wheels
+    private final SparkMax intakeMotor;
 
-  // cancoder
-  private final CANcoder cancoder;
+    // motor for angle
+    private final SparkMax angleMotor;
 
-  // shuffleboard
-  ShuffleboardTab tab = Shuffleboard.getTab("Intake");
-  GenericEntry intakeSpeed = tab.add("Intake Speed (RPM)", 0)
-        .withPosition(0, 0).withSize(2, 1)
-        .withWidget(BuiltInWidgets.kTextView)
-        .getEntry();
-  GenericEntry intakeAngle = tab.add("Intake Angle (degrees)", 0)
-        .withPosition(1, 0).withSize(2, 1)
-        .withWidget(BuiltInWidgets.kTextView)
-        .getEntry();
+    // cancoder
+    private final CANcoder cancoder;
 
-  public Intake() {
-    intakeMotor = new SparkMax(SuperstructureConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
-    intakeMotor.configure(SuperstructureConstants.INTAKE_MOTOR_CONFIGURATION, ResetMode.kResetSafeParameters,
-            PersistMode.kNoPersistParameters);
-    angleMotor = new SparkMax(SuperstructureConstants.INTAKE_ANGLE_MOTOR_ID, MotorType.kBrushless);
-    angleMotor.configure(SuperstructureConstants.INTAKE_ANGLE_MOTOR_CONFIGURATION, ResetMode.kResetSafeParameters,
-            PersistMode.kNoPersistParameters);
+    // shuffleboard
+    ShuffleboardTab tab = Shuffleboard.getTab("Intake");
+    GenericEntry intakeSpeed = tab.add("Intake Speed (RPM)", 0)
+            .withPosition(0, 0).withSize(2, 1)
+            .withWidget(BuiltInWidgets.kTextView)
+            .getEntry();
+    GenericEntry intakeAngle = tab.add("Intake Angle (degrees)", 0)
+            .withPosition(1, 0).withSize(2, 1)
+            .withWidget(BuiltInWidgets.kTextView)
+            .getEntry();
 
-    cancoder = new CANcoder(SuperstructureConstants.INTAKE_CANCODER_ID, RobotConstants.CANBUS_NAME);
-    cancoder.getConfigurator().apply(SuperstructureConstants.INTAKE_CANCODER_CONFIGURATION);
-  }
+    private static Intake mInstance = null;
 
-  public void setIntakeVolt(double volts) {
-    intakeMotor.setVoltage(volts);
-  }
+    public static Intake getInstance() {
+        if (mInstance == null) {
+            mInstance = new Intake();
+        }
+        return mInstance;
+    }
 
-  public void setIntakeSpeed(double speed) {
-    intakeMotor.set(speed);
-  }
+    public Intake() {
+        intakeMotor = new SparkMax(SuperstructureConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
+        intakeMotor.configure(SuperstructureConstants.INTAKE_MOTOR_CONFIGURATION, ResetMode.kResetSafeParameters,
+                PersistMode.kNoPersistParameters);
+        angleMotor = new SparkMax(SuperstructureConstants.INTAKE_ANGLE_MOTOR_ID, MotorType.kBrushless);
+        angleMotor.configure(SuperstructureConstants.INTAKE_ANGLE_MOTOR_CONFIGURATION, ResetMode.kResetSafeParameters,
+                PersistMode.kNoPersistParameters);
 
-  public void setAngleMotorVolt(double volts) {
-    angleMotor.setVoltage(volts);
-  }
+        cancoder = new CANcoder(SuperstructureConstants.INTAKE_CANCODER_ID, RobotConstants.CANBUS_NAME);
+        cancoder.getConfigurator().apply(SuperstructureConstants.INTAKE_CANCODER_CONFIGURATION);
+    }
 
-  public double getIntakeSpeed() {
-    return intakeMotor.getEncoder().getVelocity();
-  }
+    public void setIntakeVolt(double volts) {
+        intakeMotor.setVoltage(volts);
+    }
 
-  public double getAngle() {
-    return Rotation2d.fromRotations(cancoder.getAbsolutePosition().getValueAsDouble()).getDegrees();
-  }
+    public void setIntakeSpeed(double speed) {
+        intakeMotor.set(speed);
+    }
 
-  @Override
-  public void periodic() {
-    intakeSpeed.setDouble(getIntakeSpeed());
-    intakeAngle.setDouble(getAngle());
-  }
+    public void setAngleMotorVolt(double volts) {
+        angleMotor.setVoltage(volts);
+    }
+
+    public double getIntakeSpeed() {
+        return intakeMotor.getEncoder().getVelocity();
+    }
+
+    public double getAngle() {
+        return Rotation2d.fromRotations(cancoder.getAbsolutePosition().getValueAsDouble()).getDegrees();
+    }
+
+    @Override
+    public void periodic() {
+        intakeSpeed.setDouble(getIntakeSpeed());
+        intakeAngle.setDouble(getAngle());
+    }
 }
