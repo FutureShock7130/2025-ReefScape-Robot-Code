@@ -16,28 +16,23 @@ import com.pathplanner.lib.util.FileVersionException;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.SwerveConstants;
 
 public class GeneratePath {
 
-  PathConstraints constraints = new PathConstraints(
-      4.0, 
-      4.0, 
-      Rotation2d.fromDegrees(180).getRotations(), 
-      Rotation2d.fromDegrees(360).getRotations());
-
-  public Command PathFindToPose(Pose2d targetPose) {
-    return AutoBuilder.pathfindToPose(targetPose, constraints);
+  public Command pathFindToPose(Pose2d targetPose) {
+    return AutoBuilder.pathfindToPose(targetPose, SwerveConstants.CONCTRAINTS);
   }
 
-  public Command PathFindThenFollow(String path) throws FileVersionException, IOException, ParseException {
-    return AutoBuilder.pathfindThenFollowPath(PathPlannerPath.fromPathFile(path), constraints);
+  public Command pathFindThenFollow(String path) throws FileVersionException, IOException, ParseException {
+    return AutoBuilder.pathfindThenFollowPath(PathPlannerPath.fromPathFile(path), SwerveConstants.CONCTRAINTS);
   }
 
-  public Command FollowPath(String path) throws FileVersionException, IOException, ParseException {
+  public Command followPath(String path) throws FileVersionException, IOException, ParseException {
     return AutoBuilder.followPath(PathPlannerPath.fromPathFile(path));
   }
 
-  public Command FollowChoreoPath(String path) throws FileVersionException, IOException, ParseException {
+  public Command followChoreoPath(String path) throws FileVersionException, IOException, ParseException {
     return AutoBuilder.followPath(PathPlannerPath.fromChoreoTrajectory(path));
   }
 }

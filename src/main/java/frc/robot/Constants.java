@@ -3,6 +3,7 @@ package frc.robot;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.pathplanner.lib.path.PathConstraints;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SoftLimitConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -18,6 +19,7 @@ public class Constants {
         public static final double PERIODIC_INTERVAL = 0.02; // the periodic ,in seconds
         public static final String CANBUS_NAME = "GTX7130";
         public static final int DRIVE_CONTROLLER_PORT = 0;
+        public static final int OPERATOR_CONTROLLER_PORT = 1;
     }
 
     public static final class SwerveConstants {
@@ -87,6 +89,12 @@ public class Constants {
             STEER_MOTOR_CONFIGURATION.inverted(false);
             STEER_MOTOR_CONFIGURATION.idleMode(IdleMode.kBrake);
         }
+
+        public static final PathConstraints constraints = new PathConstraints(
+            4.0, 
+            4.0, 
+            Rotation2d.fromDegrees(180).getRotations(), 
+            Rotation2d.fromDegrees(360).getRotations());
     }
 
     public static final class SuperstructureConstants {
