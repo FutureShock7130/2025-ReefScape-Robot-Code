@@ -6,114 +6,118 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.RobotContainer;
 import frc.robot.statemachines.StateMachine;
 import frc.robot.statemachines.SuperstructureState;
 
 public class Superstructure extends SubsystemBase {
 
-  Arm mArm;
-  Elevator mElevator;
-  Grabber mGrabber;
-  Intake mIntake;
-  
-  StateMachine mStateMachine;
-  SuperstructureState mCommandedState;
+    Arm mArm;
+    Elevator mElevator;
+    Grabber mGrabber;
+    Intake mIntake;
 
-  CommandXboxController mController;
+    StateMachine mStateMachine;
+    SuperstructureState mCommandedState;
 
-  private static Superstructure mInstance = null;
+    private static Superstructure mInstance = null;
 
-  public static Superstructure getInstance() {
-    if (mInstance == null) {
-      mInstance = new Superstructure();
+    public static Superstructure getInstance() {
+        if (mInstance == null) {
+            mInstance = new Superstructure();
+        }
+        return mInstance;
     }
-    return mInstance;
-  }
 
-  /** Creates a new StateMachine. */
-  public Superstructure() {
-    mArm = Arm.getInstance();
-    mElevator = Elevator.getInstance();
-    mGrabber = Grabber.getInstance();
-    mIntake = Intake.getInstance();
-    mStateMachine = StateMachine.getInstance();
-    mController = RobotContainer.getXboxController();
-  }
-
-  public void idle() {
-
-  }
-
-  public void intakeAlgae() {
-
-  }
-
-  public void scoreProcessor() {
-
-  }
-
-  public void intakeCoral() {
-
-  }
-
-  public void scoreL1() {
-
-  }
-
-  public void scoreL2() {
-
-  }
-
-  public void scoreL3() {
-
-  }
-
-  public void scoreL4() {
-
-  }
-
-  public void shoot() {
-
-  }
-
-  public void updateState() {
-    switch (mCommandedState) {
-      case IDLE:
-        break;
-      case INTAKE_ALGAE:
-        break;
-      case SCORE_PROCESSOR:
-        break;
-      case INTAKE_CORAL:
-        break;
-      case SCORE_L1:
-        break;
-      case SCORE_L2:
-        break;
-      case SCORE_L3:
-        break;
-      case SCORE_L4:
-        break;
-      case SHOOT:
-        break;
-      default:
-        break;
+    /** Creates a new StateMachine. */
+    public Superstructure() {
+        mArm = Arm.getInstance();
+        mElevator = Elevator.getInstance();
+        mGrabber = Grabber.getInstance();
+        mIntake = Intake.getInstance();
+        mStateMachine = StateMachine.getInstance();
     }
-  }
 
-  public void updateDriverInput() {
-    // if Driver Press sth, wanted state = hahaha
-  }
+    private void idle() {
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    mCommandedState = mStateMachine.getCommandedState();
-    updateDriverInput();
-    updateState();
+    }
 
-    SmartDashboard.putString("Commanded State", mCommandedState.toString());
-  }
+    private void intakeAlgae() {
+
+    }
+
+    private void scoreProcessor() {
+
+    }
+
+    private void intakeCoral() {
+
+    }
+
+    private void scoreL1() {
+
+    }
+
+    private void scoreL2() {
+
+    }
+
+    private void scoreL3() {
+
+    }
+
+    private void scoreL4() {
+
+    }
+
+    private void shoot() {
+
+    }
+
+    public void updateState() {
+        switch (mCommandedState) {
+            case IDLE:
+                idle();
+                break;
+            case INTAKE_ALGAE:
+                intakeAlgae();
+                break;
+            case SCORE_PROCESSOR:
+                scoreProcessor();
+                break;
+            case INTAKE_CORAL:
+                intakeCoral();
+                break;
+            case SCORE_L1:
+                scoreL1();
+                break;
+            case SCORE_L2:
+                scoreL2();
+                break;
+            case SCORE_L3:
+                scoreL3();
+                break;
+            case SCORE_L4:
+                scoreL4();
+                break;
+            case SHOOT:
+                shoot();
+                break;
+            default:
+                idle();
+                break;
+        }
+    }
+
+    public void setState(SuperstructureState state) {
+        mStateMachine.setCommandedState(state);
+    }
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+        mCommandedState = mStateMachine.getCommandedState();
+        updateState();
+
+        SmartDashboard.putString("Commanded State", mCommandedState.toString());
+    }
 }
