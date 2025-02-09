@@ -26,7 +26,12 @@ public class PathPlanner extends SubsystemBase {
       return m_instance;
   }
   
-  private final SwerveDrive m_swerve = SwerveDrive.getInstance();
+  private final SwerveDrive m_swerve = SwerveDrive.getInstance(
+    Swerve.getInstance(0),
+    Swerve.getInstance(1),
+    Swerve.getInstance(2),
+    Swerve.getInstance(3)
+  );
   private final SwervePoseEstimator m_poseEstimator = SwervePoseEstimator.getInstance(new GyroIOPigeon2());
 
   private Field2d m_field = new Field2d();
@@ -48,7 +53,7 @@ public class PathPlanner extends SubsystemBase {
       m_poseEstimator::getPoseEstimatorPose,
       m_poseEstimator::setPoseEstimatorPose,
       m_poseEstimator::getRobotRelativeSpeeds,
-      (speeds, feedforwards) -> m_swerve.driveRobotRelative(speeds),
+      (speeds, feedforwards) -> m_swerve.runVelocity(speeds),
       new PPHolonomicDriveController(
         new PIDConstants(10.0, 0.0, 0.0),
         new PIDConstants(5.0, 0.0, 0.0)),

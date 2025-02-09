@@ -35,10 +35,15 @@ public class SwervePoseEstimator extends SubsystemBase {
 		return m_instance;
 	}
 
-	private SwerveDrive m_SwerveDrive = SwerveDrive.getInstance();
+	private SwerveDrive m_SwerveDrive = SwerveDrive.getInstance(
+		Swerve.getInstance(0),
+        Swerve.getInstance(1),
+        Swerve.getInstance(2),
+        Swerve.getInstance(3)
+	);
 	private SwerveVision m_SwerveVision = SwerveVision.getInstance();
 
-	private SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.MODULE_TRANSLATOIN_METERS);
+	private SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.MODULE_TRANSLATION_METERS);
 	private Rotation2d m_gyroYaw = new Rotation2d();
 	private Supplier<SwerveModulePosition[]> m_modulePos = () -> m_SwerveDrive.getModulePositions();
 	private SwerveModulePosition[] m_lastModulePos = // For delta tracking
@@ -74,9 +79,13 @@ public class SwervePoseEstimator extends SubsystemBase {
 		m_poseEstimator.resetPosition(getGyroYaw(), m_SwerveDrive.getModulePositions(), pose);
 	}
 
+	public Rotation2d getPERotation() {
+		return getPoseEstimatorPose().getRotation();
+	}
+
 	public ChassisSpeeds getRobotRelativeSpeeds() {
 		return ChassisSpeeds.fromFieldRelativeSpeeds(m_kinematics.toChassisSpeeds(m_SwerveDrive.getModuleStates()),
-				getGyroYaw());
+				getPERotation());
 	}
 
 	@Override

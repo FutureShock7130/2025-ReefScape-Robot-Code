@@ -26,6 +26,7 @@ public class Constants {
         public static final String CANBUS_NAME = "GTX7130";
         public static final int DRIVE_CONTROLLER_PORT = 0;
         public static final int OPERATOR_BUTTONBOX_PORT = 1;
+        public static final double DRIVE_CONTROLLER_DEADBAND = 0.1;
     }
 
     public static final class SwerveConstants {
@@ -35,25 +36,36 @@ public class Constants {
 
         public static final int PIGEON_ID = 40;
 
-        public static final double STEER_MOTOR_KP = 0.008;
-        public static final double STEER_MOTOR_KI = 0.05;
-        public static final double STEER_MOTOR_KD = 0.005;
+        public static final double DRIVE_MOTOR_KP = 0.0;
+        public static final double DRIVE_MOTOR_KI = 0.0;
+        public static final double DRIVE_MOTOR_KD = 0.0;
+        public static final double DRIVE_MOTOR_KS = 0.0;
+        public static final double DRIVE_MOTOR_KV = 0.0;
+        public static final double DRIVE_MOTOR_KA = 0.0;
+
+        public static final double STEER_MOTOR_KP = 0.0005;
+        public static final double STEER_MOTOR_KI = 0.000015;
+        public static final double STEER_MOTOR_KD = 0.000001;
         public static final double STEER_MOTOR_WINDUP = 0.0;
         public static final int STEER_MOTOR_LIMIT = 0;
 
         public static final double DRIVE_MOTOR_GEAR_RATIO = 6.122449;
+        public static final double STEER_MOTOR_GEAR_RATIO = 150.0 / 7.0;
+
+        public static final boolean IS_STEER_MOTOR_INVERTED = false;
+        
         public static final double DRIVE_WHEEL_DIAMETERS = 0.0964511800486235; // meters
         public static final double DRIVE_WHEEL_PERIMETER = Math.PI * DRIVE_WHEEL_DIAMETERS; // meters
 
         public static Rotation2d gyroYaw = new Rotation2d();
 
-        public static final Translation2d[] MODULE_TRANSLATOIN_METERS = new Translation2d[] {
+        public static final Translation2d[] MODULE_TRANSLATION_METERS = new Translation2d[] {
                 new Translation2d(WHEEL_BASE / 2.0, WHEEL_BASE / 2.0),
                 new Translation2d(WHEEL_BASE / 2.0, -WHEEL_BASE / 2.0),
                 new Translation2d(-WHEEL_BASE / 2.0, -WHEEL_BASE / 2.0),
                 new Translation2d(-WHEEL_BASE / 2.0, WHEEL_BASE / 2.0)
         };
-
+        
         public static final SwerveModuleConstants MOD0_CONSTANTS = new SwerveModuleConstants();
         static {
             MOD0_CONSTANTS.DriveMotorId = 1;
@@ -61,7 +73,7 @@ public class Constants {
             MOD0_CONSTANTS.CANcoderId = 0;
             MOD0_CONSTANTS.CANcoderOffset = -0.272461;
         }
-
+        
         public static final SwerveModuleConstants MOD1_CONSTANTS = new SwerveModuleConstants();
         static {
             MOD1_CONSTANTS.DriveMotorId = 11;
@@ -69,7 +81,7 @@ public class Constants {
             MOD1_CONSTANTS.CANcoderId = 1;
             MOD1_CONSTANTS.CANcoderOffset = -0.123047;
         }
-
+        
         public static final SwerveModuleConstants MOD2_CONSTANTS = new SwerveModuleConstants();
         static {
             MOD2_CONSTANTS.DriveMotorId = 21;
@@ -77,7 +89,7 @@ public class Constants {
             MOD2_CONSTANTS.CANcoderId = 2;
             MOD2_CONSTANTS.CANcoderOffset = 0.205322;
         }
-
+        
         public static final SwerveModuleConstants MOD3_CONSTANTS = new SwerveModuleConstants();
         static {
             MOD3_CONSTANTS.DriveMotorId = 31;
@@ -86,15 +98,26 @@ public class Constants {
             MOD3_CONSTANTS.CANcoderOffset = -0.119141;
         }
 
+        public static final SwerveModuleConstants[] SWERVE_MODULE_CONSTANTS = new SwerveModuleConstants[] {
+            MOD0_CONSTANTS,
+            MOD1_CONSTANTS,
+            MOD2_CONSTANTS,
+            MOD3_CONSTANTS
+        };
+        
         // motor configuration
         public static final TalonFXConfiguration DRIVE_MOTOR_CONFIGURATION = new TalonFXConfiguration();
         static {
+            DRIVE_MOTOR_CONFIGURATION.CurrentLimits.SupplyCurrentLimit = 40;
+            DRIVE_MOTOR_CONFIGURATION.CurrentLimits.SupplyCurrentLimitEnable = true;
             DRIVE_MOTOR_CONFIGURATION.Feedback.SensorToMechanismRatio = SwerveConstants.DRIVE_MOTOR_GEAR_RATIO;
         }
 
         public static final SparkMaxConfig STEER_MOTOR_CONFIGURATION = new SparkMaxConfig();
         static {
-            STEER_MOTOR_CONFIGURATION.inverted(false);
+            STEER_MOTOR_CONFIGURATION.smartCurrentLimit(30);
+            STEER_MOTOR_CONFIGURATION.voltageCompensation(12.0);
+            STEER_MOTOR_CONFIGURATION.inverted(IS_STEER_MOTOR_INVERTED);
             STEER_MOTOR_CONFIGURATION.idleMode(IdleMode.kBrake);
         }
     }

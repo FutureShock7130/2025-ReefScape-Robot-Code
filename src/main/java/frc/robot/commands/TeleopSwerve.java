@@ -1,70 +1,71 @@
+
 package frc.robot.commands;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.SwervePoseEstimator;
 
-public class TeleopSwerve extends Command {
+import java.util.function.DoubleSupplier;
 
-    private final SwerveDrive swerve;
-    private final SwervePoseEstimator poseEstimator;
+public class TeleopSwerve {
+  private TeleopSwerve() {}
+  
 
-    private SlewRateLimiter xLimiter = new SlewRateLimiter(3.0);
-    private SlewRateLimiter yLimiter = new SlewRateLimiter(3.0);
-    private SlewRateLimiter rotLimiter = new SlewRateLimiter(3.0);
+  /**
+   * Field relative drive command using two joysticks (controlling linear and angular velocities).
+   */
+  public static Command joystickDrive(
+      SwerveDrive drive,
+      SwervePoseEstimator poseEstimator,
+      DoubleSupplier xSupplier,
+      DoubleSupplier ySupplier,
+      DoubleSupplier omegaSupplier) {
+    return Commands.run(
+        () -> {
+          // Apply deadband
+          double linearMagnitude =
+              MathUtil.applyDeadband(
+                  Math.hypot(xSupplier.getAsDouble(), ySupplier.getAsDouble()), RobotConstants.DRIVE_CONTROLLER_DEADBAND);
+          Rotation2d linearDirection =
+              new Rotation2d(xSupplier.getAsDouble(), ySupplier.getAsDouble());
+          double omega = MathUtil.applyDeadband(omegaSupplier.getAsDouble(), RobotConstants.DRIVE_CONTROLLER_DEADBAND);
 
-    private double xSpeed = 0.0;
-    private double ySpeed = 0.0;
-    private double rotSpeed = 0.0;
+          // Square values
+          linearMagnitude = linearMagnitude * linearMagnitude;
+          omega = Math.copySign(omega * omega, omega);
 
-    private double reduction = 1;
+          // Calcaulate new linear velocity
+          Translation2d linearVelocity =
+              new Pose2d(new Translation2d(), linearDirection)
+                  .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
+                  .getTranslation();
 
-    private CommandXboxController controller;
+          // Convert to field relative speeds & send command
+          boolean isFlipped =
+              DriverStation.getAlliance().isPresent()
+                  && DriverStation.getAlliance().get() == Alliance.Red;
+          drive.runVelocity(
+              ChassisSpeeds.fromFieldRelativeSpeeds(
+                  linearVelocity.getX() * SwerveConstants.MAX_MODULE_SPEED * 0.3,
+                  linearVelocity.getY() * SwerveConstants.MAX_MODULE_SPEED * 0.3,
+                  omega * SwerveConstants.MAX_MODULE_ROTATIONAL_SPEED * 0.3,
+                  isFlipped
+                      ? poseEstimator.getPERotation().plus(new Rotation2d(Math.PI))
+                      : poseEstimator.getPERotation()));
+        },
+        drive);
+  }
 
-    public TeleopSwerve(SwerveDrive swerve, SwervePoseEstimator poseEstimator, CommandXboxController controller) {
-        this.swerve = swerve;
-        this.poseEstimator = poseEstimator;
-        this.controller = controller;
-        addRequirements(swerve);
-        addRequirements(poseEstimator);
-    }
-
-    @Override
-    public void execute() {
-
-        if (controller.getHID().getAButtonPressed()) {
-            poseEstimator.setPoseEstimatorPose(new Pose2d());
-        }
-
-        if (controller.getHID().getRightBumperButton()) {
-            reduction = 0.3;
-        } else {
-            reduction = 1;
-        }
-
-        xSpeed = xLimiter.calculate(-controller.getLeftY() * reduction);
-        ySpeed = yLimiter.calculate(-controller.getLeftX() * reduction);
-        rotSpeed = rotLimiter.calculate(-controller.getRightX() * reduction);
-
-        // square the input to inprove driving experience
-        xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
-        ySpeed = Math.copySign(ySpeed * ySpeed, ySpeed);        
-        rotSpeed = Math.copySign(rotSpeed * rotSpeed, rotSpeed);
-
-        swerve.drive(
-                new Translation2d(xSpeed, ySpeed).times(SwerveConstants.MAX_MODULE_SPEED),
-                rotSpeed * SwerveConstants.MAX_MODULE_ROTATIONAL_SPEED,
-                true);
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        swerve.drive(new Translation2d(), 0, false);
-    }
+    
 }
