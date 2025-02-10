@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LED extends SubsystemBase {
-    private final AddressableLED m_led;
-    private final AddressableLEDBuffer m_ledBuffer;
+    private static AddressableLED m_led;
+    private static AddressableLEDBuffer m_ledBuffer;
     private final Timer timer = new Timer();
     private static LED mInstance = null;
 
@@ -27,6 +27,18 @@ public class LED extends SubsystemBase {
         m_led = new AddressableLED(9);
         m_ledBuffer = new AddressableLEDBuffer(105);
         m_led.setLength(m_ledBuffer.getLength());
+        m_led.setData(m_ledBuffer);
+        m_led.start();
+    }
+
+    public void resetLED(int port, int length) {
+        m_led.stop();
+        m_led = new AddressableLED(port);
+        m_ledBuffer = new AddressableLEDBuffer(length);
+        m_led.setLength(m_ledBuffer.getLength());
+        for (int i = 0; i < m_ledBuffer.getLength(); i++) {
+            m_ledBuffer.setRGB(i, 0, 0, 0);
+        }
         m_led.setData(m_ledBuffer);
         m_led.start();
     }
