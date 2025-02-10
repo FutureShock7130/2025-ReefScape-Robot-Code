@@ -13,13 +13,13 @@ public class LED extends SubsystemBase {
     private static AddressableLED m_led;
     private static AddressableLEDBuffer m_ledBuffer;
     private final Timer timer = new Timer();
-    private static LED mInstance = null;
+    private static LED m_Instance = null;
 
     public static LED getInstance() {
-        if (mInstance == null) {
-            mInstance = new LED();
+        if (m_Instance == null) {
+            m_Instance = new LED();
         }
-        return mInstance;
+        return m_Instance;
     }
 
     /** Creates a new LED. */

@@ -1,162 +1,163 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.Pigeon2;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.util.PathPlannerLogging;
+import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Voltage;
+import frc.robot.IO.ModuleIO;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.SwerveConstants;
 
-public class Swerve extends SubsystemBase {
+/** Add your docs here. */
+public class Swerve implements ModuleIO {
 
-    private Pigeon2 pigeon = new Pigeon2(SwerveConstants.PIGEON_ID, RobotConstants.CANBUS_NAME);
+    private static Swerve m_instance = null;
 
-    private SwerveModule[] modules = new SwerveModule[] {
-            new SwerveModule(0, SwerveConstants.MOD0_CONSTANTS),
-            new SwerveModule(1, SwerveConstants.MOD1_CONSTANTS),
-            new SwerveModule(2, SwerveConstants.MOD2_CONSTANTS),
-            new SwerveModule(3, SwerveConstants.MOD3_CONSTANTS)
-    };
-    private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(SwerveConstants.MODULE_TRANSLATOIN_METERS);
-    private SwerveDriveOdometry odometry = new SwerveDriveOdometry(kinematics, getGyroYaw(), getModulePositions());
-
-    private Field2d field = new Field2d();
-
-    private static Swerve mInstance;
-
-    public static Swerve getInstance() {
-        if (mInstance == null) {
-            mInstance = new Swerve();
+    public static Swerve getInstance(int index) {
+        if (m_instance == null) {
+            m_instance = new Swerve(index);
         }
-        return mInstance;
+        return m_instance;
     }
 
-    public Swerve() {
+    private final TalonFX driveTalon;
+    // private final TalonFX turnTalon;
+    private final SparkMax turnSparkMax;
+    private final CANcoder cancoder;
 
-        RobotConfig config = null;
-        try {
-            config = RobotConfig.fromGUISettings();
-        } catch (Exception e) {
-            e.printStackTrace();
+    private final StatusSignal<Angle> drivePosition;
+    private final StatusSignal<AngularVelocity> driveVelocity;
+    private final StatusSignal<Voltage> driveAppliedVolts;
+    private final StatusSignal<Current> driveCurrent;
+
+    private final StatusSignal<Angle> turnAbsolutePosition;
+
+    private final Rotation2d absoluteEncoderOffset;
+
+    public Swerve(int index) {
+        if (index < 0 || index >= SwerveConstants.SWERVE_MODULE_CONSTANTS.length) {
+            throw new IllegalArgumentException("Invalid index: " + index);
         }
 
-        if (config == null) {
-            throw new RuntimeException("Failed to load config");
-        }
+        driveTalon = new TalonFX(SwerveConstants.SWERVE_MODULE_CONSTANTS[index].DriveMotorId, RobotConstants.CANBUS_NAME);
+        // turnTalon = new TalonFX(SwerveConstants.SWERVE_MODULE_CONSTANTS[index].SteerMotorId, RobotConstants.CANBUS_NAME);
+        turnSparkMax = new SparkMax(SwerveConstants.SWERVE_MODULE_CONSTANTS[index].SteerMotorId, MotorType.kBrushless);
+        cancoder = new CANcoder(SwerveConstants.SWERVE_MODULE_CONSTANTS[index].CANcoderId);
+        absoluteEncoderOffset = new Rotation2d(Units.rotationsToRadians(SwerveConstants.SWERVE_MODULE_CONSTANTS[index].CANcoderOffset));
 
-        AutoBuilder.configure(
-                this::getOdometryPosition,
-                this::setOdometryPosition,
-                this::getRobotRelativSpeeds,
-                (speeds, feedforwards) -> driveRobotRelative(speeds),
-                new PPHolonomicDriveController(
-                        new PIDConstants(10.0, 0.0, 0.0),
-                        new PIDConstants(5.0, 0.0, 0.0)),
-                config,
-                () -> {
-                    var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;
-                },
-                this);
+        TalonFXConfiguration driveTalonConfig = SwerveConstants.DRIVE_MOTOR_CONFIGURATION;
+        driveTalon.getConfigurator().apply(driveTalonConfig);
+        setDriveMotorOutputMode(true);
 
-        PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
-            field.getObject("target").setPose(pose);
-        });
+        SparkMaxConfig turnSparkConfig = SwerveConstants.STEER_MOTOR_CONFIGURATION;
+        turnSparkMax.setCANTimeout(250);
+        turnSparkMax.configure(turnSparkConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        PathPlannerLogging.setLogActivePathCallback((poses) -> {
-            field.getObject("path").setPoses(poses);
-        });
+        cancoder.getConfigurator().apply(new CANcoderConfiguration());
 
-        odometry.resetPose(new Pose2d());
-        pigeon.reset();
-    }
+        drivePosition = driveTalon.getPosition();
+        driveVelocity = driveTalon.getVelocity();
+        driveAppliedVolts = driveTalon.getMotorVoltage();
+        driveCurrent = driveTalon.getSupplyCurrent();
 
-    public void drive(Translation2d translation, double rotation, boolean fieldRelative) {
-        ChassisSpeeds chassisSpeeds = fieldRelative
-                ? ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation, getGyroYaw())
-                : new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
-        SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(chassisSpeeds);
-        setModuleStates(moduleStates);
-    }
+        turnAbsolutePosition = cancoder.getAbsolutePosition();
 
-    public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
-        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.01);
-        SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
-        setModuleStates(targetStates);
-    }
-
-    public Rotation2d getGyroYaw() {
-        return Rotation2d.fromDegrees(pigeon.getYaw().getValueAsDouble());
-    }
-
-    public void setGyroYaw(Rotation2d yaw) {
-        pigeon.setYaw(yaw.getDegrees());
-    }
-
-    public Pose2d getOdometryPosition() {
-        return odometry.getPoseMeters();
-    }
-
-    public void setOdometryPosition(Pose2d pose) {
-        odometry.resetPosition(getGyroYaw(), getModulePositions(), pose);
-    }
-
-    public ChassisSpeeds getRobotRelativSpeeds() {
-        return ChassisSpeeds.fromFieldRelativeSpeeds(kinematics.toChassisSpeeds(getModuleStates()), getGyroYaw());
-    }
-
-    public SwerveModulePosition[] getModulePositions() {
-        SwerveModulePosition[] positions = new SwerveModulePosition[4];
-        for (int i = 0; i < 4; i++) {
-            positions[i] = modules[i].getModulePosition();
-        }
-        return positions;
-    }
-
-    public SwerveModuleState[] getModuleStates() {
-        SwerveModuleState[] states = new SwerveModuleState[4];
-        for (int i = 0; i < 4; i++) {
-            states[i] = modules[i].getModuleState();
-        }
-        return states;
-    }
-
-    public void setModuleStates(SwerveModuleState[] desiredStates) {
-        if (desiredStates.length != 4) {
-            throw new IllegalArgumentException("desiredStates must have length 4");
-        }
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_MODULE_SPEED);
-        for (SwerveModule mod : modules) {
-            mod.setDesiredState(desiredStates[mod.ModuleNumber]);
-        }
+        BaseStatusSignal.setUpdateFrequencyForAll(100.0, drivePosition);
+        BaseStatusSignal.setUpdateFrequencyForAll(
+            50.0,
+            driveVelocity,
+            driveAppliedVolts,
+            driveCurrent,
+            turnAbsolutePosition
+            //     turnVelocity,
+            //     turnAppliedVolts,
+            //     turnCurrent
+            );
+        driveTalon.optimizeBusUtilization();
+        // turnTalon.optimizeBusUtilization();
     }
 
     @Override
-    public void periodic() {
-        odometry.update(getGyroYaw(), getModulePositions());
-        field.setRobotPose(getOdometryPosition());
+    public void updateInputs(ModuleIOInputs inputs) {
+        BaseStatusSignal.refreshAll(
+            drivePosition,
+            driveVelocity,
+            driveAppliedVolts,
+            driveCurrent,
+            turnAbsolutePosition
+        //     turnVelocity,
+        //     turnAppliedVolts,
+        //     turnCurrent
+        );
 
-        SmartDashboard.putData("Field", field);
-        SmartDashboard.putNumber("gyro (deg)", getGyroYaw().getDegrees());
-        SmartDashboard.putNumber("swerve odometry x", getOdometryPosition().getX());
-        SmartDashboard.putNumber("swerve odometry y", getOdometryPosition().getY());
+        inputs.drivePositionRad = Units.rotationsToRadians(drivePosition.getValueAsDouble() / SwerveConstants.DRIVE_MOTOR_GEAR_RATIO);
+        inputs.driveVelocityRadPerSec = Units.rotationsToRadians(driveVelocity.getValueAsDouble() / SwerveConstants.DRIVE_MOTOR_GEAR_RATIO);
+        inputs.driveAppliedVolts = driveAppliedVolts.getValueAsDouble();
+        inputs.driveCurrentAmps = new double[] {driveCurrent.getValueAsDouble()};
+
+        inputs.turnAbsolutePosition =
+            new Rotation2d(Units.rotationsToRadians(cancoder.getAbsolutePosition().getValueAsDouble())).plus(absoluteEncoderOffset);
+        inputs.turnPosition =
+            Rotation2d.fromRotations(turnSparkMax.getEncoder().getPosition() / SwerveConstants.STEER_MOTOR_GEAR_RATIO);
+        inputs.turnVelocityRadPerSec =
+            Units.rotationsPerMinuteToRadiansPerSecond(turnSparkMax.getEncoder().getVelocity()) / SwerveConstants.STEER_MOTOR_GEAR_RATIO;
+        inputs.turnAppliedVolts = turnSparkMax.getAppliedOutput() * turnSparkMax.getBusVoltage();
+        inputs.turnCurrentAmps = new double[] {turnSparkMax.getOutputCurrent()};
+        // inputs.turnPosition =
+        // Rotation2d.fromRotations(turnPosition.getValueAsDouble() / TURN_GEAR_RATIO);
+        // inputs.turnVelocityRadPerSec =
+        //     Units.rotationsToRadians(turnVelocity.getValueAsDouble()) / TURN_GEAR_RATIO;
+        // inputs.turnAppliedVolts = turnAppliedVolts.getValueAsDouble();
+        // inputs.turnCurrentAmps = new double[] {turnCurrent.getValueAsDouble()};
     }
+
+    @Override
+    public void setDriveVoltage(double volts) {
+        driveTalon.setControl(new VoltageOut(volts));
+    }
+
+    @Override
+    public void setTurnVoltage(double volts) {
+        // turnTalon.setControl(new VoltageOut(volts));
+        turnSparkMax.setVoltage(volts);
+    }
+
+    public void setDriveMotorOutputMode(boolean enable) {
+        var config = new MotorOutputConfigs();
+        config.Inverted = InvertedValue.CounterClockwise_Positive;
+        config.NeutralMode = enable ? NeutralModeValue.Brake : NeutralModeValue.Coast;
+        driveTalon.getConfigurator().apply(config);
+    }
+
+    // public void setTurnMotorOutputMode(boolean enable) {
+    //     var config = new MotorOutputConfigs();
+    //     config.Inverted = 
+    //         SwerveConstants.IS_STEER_MOTOR_INVERTED
+    //             ? InvertedValue.Clockwise_Positive
+    //             : InvertedValue.CounterClockwise_Positive;
+    //     config.NeutralMode = enable ? NeutralModeValue.Brake : NeutralModeValue.Coast;
+    //     turnTalon.getConfigurator().apply(config);
+    // }
 }

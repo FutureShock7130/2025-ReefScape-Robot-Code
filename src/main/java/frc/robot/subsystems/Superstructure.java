@@ -18,13 +18,13 @@ public class Superstructure extends SubsystemBase {
     StateMachine mStateMachine;
     SuperstructureState mCommandedState;
 
-    private static Superstructure mInstance = null;
+    private static Superstructure m_Instance = null;
 
     public static Superstructure getInstance() {
-        if (mInstance == null) {
-            mInstance = new Superstructure();
+        if (m_Instance == null) {
+            m_Instance = new Superstructure();
         }
-        return mInstance;
+        return m_Instance;
     }
 
     /** Creates a new StateMachine. */

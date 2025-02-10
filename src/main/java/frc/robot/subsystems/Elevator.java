@@ -15,7 +15,6 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SuperstructureConstants;
 
@@ -31,13 +30,13 @@ public class Elevator extends SubsystemBase {
     // cancoder
     private final CANcoder cancoder;
 
-    private static Elevator mInstance = null;
+    private static Elevator m_Instance = null;
     
     public static Elevator getInstance() {
-        if (mInstance == null) {
-            mInstance = new Elevator();
+        if (m_Instance == null) {
+            m_Instance = new Elevator();
         }
-        return mInstance;
+        return m_Instance;
     }
 
     // shuffleboard

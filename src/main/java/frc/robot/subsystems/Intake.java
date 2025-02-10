@@ -50,13 +50,13 @@ public class Intake extends SubsystemBase {
             .withWidget(BuiltInWidgets.kTextView)
             .getEntry();
 
-    private static Intake mInstance = null;
+    private static Intake m_Instance = null;
 
     public static Intake getInstance() {
-        if (mInstance == null) {
-            mInstance = new Intake();
+        if (m_Instance == null) {
+            m_Instance = new Intake();
         }
-        return mInstance;
+        return m_Instance;
     }
 
     public Intake() {

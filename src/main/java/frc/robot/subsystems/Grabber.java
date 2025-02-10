@@ -8,14 +8,10 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.FSLib2025.state_machine.SuperstructureState;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.SuperstructureConstants;
 
@@ -54,13 +50,13 @@ public class Grabber extends SubsystemBase {
             .withWidget(BuiltInWidgets.kTextView)
             .getEntry();
 
-    private static Grabber mInstance = null;
+    private static Grabber m_Instance = null;
 
     public static Grabber getInstance() {
-        if (mInstance == null) {
-            mInstance = new Grabber();
+        if (m_Instance == null) {
+            m_Instance = new Grabber();
         }
-        return mInstance;
+        return m_Instance;
     }
 
     public Grabber() {
